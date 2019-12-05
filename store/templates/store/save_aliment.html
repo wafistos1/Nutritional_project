@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="page-section bg-dark text-orange">
+                <div class="container text-center">
+                    <h1>Détail du Produit</h1> 
+                    <br>
+                    <br>
+                    <h2>  Les produits suivants ont été sauvegardés au favori de {{user}} </h2>
+                    <br>
+                    <br>
+                    <br>
+                                      
+                      
+                <main role="main">
+
+                                <section class="jumbotron text-center">
+                                  <div class="container">
+                                    <div class="section_title"><h2>Produit sélectionné par {{ user.username }}</h2></div>
+                                  </div>
+                              
+                                <div class="album py-5 bg-light">
+                                  <div class="container">
+                              
+                                    <div class="row">
+                                         
+                                      <div class="col-md-4">
+                                        <div class="card mb-4 shadow-sm">
+                                          <img class="img-responsive"  width="80%" height="200" src="{{ favorite.product_choice.images  }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                            <h3 x="50%" y="50%" fill="#eceeef" dy=".3em">{{favorite.product_choice.name }}</h3>
+                                          <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center">
+        
+                                              <h5>Grade: {{favorite.product_choice.grade |upper }}</h5>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="container">
+                                                <h2>Produit favori </h2>
+                                                
+                                      </div>
+
+
+                                      <div class="col-md-4" >
+                                          <div class="card mb-4 shadow-sm">
+                                            <img class="img-responsive"  width="80%" height="225" src="{{ favorite.product_favorite.images  }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                              <div class="card-body">
+                                                  <h5>{{favorite.product_favorite.name|truncatewords:3 }}</h5>
+                                              </div>
+                                            <div class="card-body">
+                                              <div class="d-flex justify-content-between align-items-center">
+
+                                                <h5>Grade: {{favorite.product_favorite.grade|upper }}</h5>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </section>
+                                    </div>
+                                  </div>
+                                </div>
+                              
+                              </main>
+</section>
+{% endblock %}

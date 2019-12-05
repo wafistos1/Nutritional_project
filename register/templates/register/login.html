@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+{% if user.is_authenticated %}
+<div class="row justify-content-center">
+    <h3>
+        Vous etes deja connecte
+    </h3>
+</div>
+
+{% else %}
+
+
+
+
+                    <div class="row justify-content-center">
+                            <form method="POST">
+                                    {% csrf_token %}
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">Se connecter</legend>
+                                        
+                                        {{ form|crispy }}
+                                    </fieldset>
+                                    <div class="form-group">
+                                            
+                                        <button class="btn btn-outline-info" type="submit" id="submitBtn" >login</button>
+                                    </div>
+                                    
+                                </form>
+                            <div class="border-top pt-3" >
+                                <small class="text-muted">
+                                    Pas inscris ? <a class="ml-2" href="{% url 'register' %}">S'inscrire</a>
+                                </small>
+                            </div>
+                   
+                    </div>
+             
+
+
+  
+      {% endif %}
+{% endblock %}

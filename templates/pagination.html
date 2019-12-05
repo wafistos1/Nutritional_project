@@ -1,0 +1,31 @@
+<!-- 
+<div class="pagination">
+    {% if best_product.has_previous %}
+        <a href="{% url 'resultats' best_product.previous_page_number %}">Précédente</a> -
+    {% endif %}
+ 
+    <span class="current">
+        Page {{ best_product.number }} sur {{ best_product.paginator.num_pages }}
+    </span>
+ 
+    {% if best_product.has_next %}
+        - <a href="{% url 'resultats' best_product.next_page_number %}">Suivante</a>
+    {% endif %}
+</div> -->
+<div>
+<ul class="pagination">
+        {% if best_product.has_previous %}
+        <li class="page-item"><a class="page-link" href="{% url 'resultats' best_product.previous_page_number %}">Précédente</a></li>
+        {% endif %}
+
+        <li class="page-item">
+                <a class="page-link" href="#">
+                Page {{ best_product.number }} sur {{ best_product.paginator.num_pages }}
+                </a>
+        </li>
+
+        {% if best_product.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'resultats' best_product.next_page_number %}">Suivante</a></li>
+        {% endif %}
+</ul>
+</div>

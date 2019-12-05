@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<section class="page-section bg-dark text-orange">
+
+
+                    <main role="main">
+
+                        <section class="jumbotron text-center"  >
+                          <div class="container">
+                              <h1 class="text-uppercase text-white font-weight-bold">Produit recherché</h1>
+                            <div class="section_subtitle">Resultat de la recherche</div>
+                            
+                          </div>
+                        </section>
+                      
+                        <div class="album py-5 bg-light">
+                          <div class="container">
+                      
+                            <div class="row">
+                                 
+                              <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                  <img class="img-responsive"  width="80%" height="200" src="{{ data.images }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                    <div class="card-body">
+                                        <h2 >{{ data.name }}</p>
+                                    </div>
+                                  <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+
+                                      <div class="section_subtitle">Grade: {{ data.grade|upper }}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                            </div>
+                          </div>
+                        </div>
+                      
+                      </main>
+</section>
+
+        <main role="main">
+
+            <section class="jumbotron text-center"  >
+              <div class="container">
+                  <div class="col text-center">
+                      <h1 class="text-uppercase text-white font-weight-bold">Produits de meilleur qualité nutritionnelle</h1>
+                      <div class="section_title"><h2>Vous pouvez remplacer cet aliment par</h2></div>
+                      <div class="section_subtitle">Produits de meilleur qualité nutritionnelle</div>
+                    </div>
+                
+
+                
+              </div>
+              {% include "pagination.html" with liste=best_product view="resultats" %}
+            </section>
+          
+            <div class="album py-5 bg-light" >
+              <div class="container" >
+          
+                <div class="row" >
+                    {% for value in best_product%}
+                  <div class="col-md-4" >
+                    <div class="card mb-4 shadow-sm">
+                      <img class="img-responsive"  width="80%" height="225" src="{{ value.images }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                        <div class="card-body">
+                            <h5>{{value.name|truncatewords:3 }}</h5>
+                        </div>
+                      <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            <a href="{% url 'save_aliment' fav=value.pk prod=data.pk  %}" ><button type="button" class="btn btn-sm btn-outline-secondary">Sauvegarder</button></a>
+                          </div>
+                          <small class="text-muted">Grade: {{value.grade|upper }}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          
+          </main>
+          <script src="{% static 'js/script.js' %}"></script>
+          {% include "pagination.html" with liste=best_product view="resultats" %}
+        </section>
+
+{% endblock %}

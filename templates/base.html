@@ -1,0 +1,131 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Ouafi MAMERI">
+  
+  <title>Pure Beurre</title>
+  <!-- Link Bootstrap CSS -->
+      
+  <!-- Link Bootstrap JS and JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+  <!-- Google Fonts -->
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- Theme CSS - Includes Bootstrap -->
+  <link href="{% static 'css/creative.css' %}" rel="stylesheet">
+</head>
+
+<body id="page-top">
+  <!-- Navigation -->
+  {% block nav %}
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="{% url 'home' %}"><img src="{% static 'img/logo_pur_beurre.svg' %}" width="30%"></a>
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto my-2 my-lg-0">
+
+          <li class="nav-item">
+            <form method="GET" action="{% url 'resultats' %}">
+                {% csrf_token %}
+              <input type="text"  name="q" Recherche placeholder="Rechercher un produit">
+              <input class="btn btn-primary my-2" id="submitId" type="submit" value="Search">
+              
+            </form>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'compte' %}">Mon compte</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'aliment' %}">Aliment</a>
+          </li> 
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+              <p class="nav-link js-scroll-trigger">{{ user|capfirst }}</p>
+              </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">Deconnexion</a>
+          </li>
+
+          {% else %}
+          <li class="nav-item">
+              <a class="nav-link js-scroll-trigger"   href="{% url 'login' %}"  >Se connecter</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link js-scroll-trigger" href="{% url 'register' %}">S'inscrire</a>
+              </li>
+              {% endif %}
+            </ul>
+          
+        
+      </div>
+    </div>
+  </nav>
+ 
+  <!-- Masthead -->
+
+  <header class="masthead">
+    <div class="container h-100">
+      <div class="row h-50 align-items-center justify-content-center text-center">
+        <div class="col-lg-50 align-self-end"></div>
+          <h1 class="text-uppercase text-white font-weight-bold">Pure beurre</h1>
+
+      </div>
+    </div>
+  </header>
+
+
+
+
+  {% endblock %}
+
+
+  <!-- About Section -->
+  {% block content %}
+
+
+
+  <!-- Portfolio Section -->
+  
+
+  <!-- Call to Action Section -->
+ 
+
+  <!-- Contact Section -->
+
+  {% endblock  %}
+  <!-- Footer -->
+{% block footer%}
+  <footer class="bg-transparent py-5 text-dark">
+    <div class="container">
+      <div class="small text-center text-muted">CopyLeft &copy; 2019 - Ouafi MAMERI</div>
+    </div>
+  </footer>
+
+
+  <!-- Custom scripts for this template -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+      $(document).ready(function(){
+        $("#myBtn").click(function(){
+          $("#myModal").modal();
+        });
+      });
+      </script>
+
+  
+  {% endblock %}
+</body>
+
+</html>
+
+
