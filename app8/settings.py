@@ -31,10 +31,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-else:
-    DEBUG = True
+
+DEBUG = True
     
 
 ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
