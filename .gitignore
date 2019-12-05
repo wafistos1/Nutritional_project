@@ -107,3 +107,4 @@ migrations
 .mypy_cache/
 
 files_variable.txt
+.vscode/
