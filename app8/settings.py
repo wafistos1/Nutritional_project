@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%c#6#f5zdwz)+='
+SECRET_KEY = os.environ.get('SECRET_KEY', 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%c#6#f5zdwz)+=') # development key for the moment
+
 """
 >>> import random, string
 >>> "".join([random.choice(string.printable) for _ in range(24)])
@@ -36,7 +37,7 @@ else:
     DEBUG = True
     
 
-ALLOWED_HOSTS = ['openfood.herokuapp.com']
+ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
 
 
 # Application definition
