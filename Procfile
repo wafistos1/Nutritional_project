@@ -1,1 +1,1 @@
-web: guincorn app8.wsgi
+web: gunicorn app8.wsgi
