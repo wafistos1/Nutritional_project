@@ -10,7 +10,7 @@ class TestViewsRegister(TestCase):
         self.Register_url = reverse('register')
         self.compte_url = reverse('compte')
         self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
-        self.profile = Profile.objects.get_or_create(user=self.user)
+        self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')
         
 
 
@@ -30,13 +30,21 @@ class TestViewsRegister(TestCase):
     #     response = self.client.post('/register/register')
     #     self.assertEquals(response.status_code, 302)
          
-    def test_request_post_is_not_ok(self):
-        
-        response = self.client.post( '/admin',
+    def test_request_post_is_ok(self):
+        count_old = Profile.objects.count()
+        response = self.client.post( '/register/register/',
                                      {'username': self.user.username,
-                                      'password': self.user.password,
+                                      'email': self.user.email,
+                                      'password1': self.user.password,
+                                      'password2': self.user.password,
+                                      'image': self.profile[0].image,
                                                  })
-        print(response)
-        self.assertEquals(response.status_code, 302)
+        user_profile = User.objects.create_user('wafios', 'wafi1@gmail.com', 'wafipass1')
+        profile = Profile.objects.create(
+            user=user_profile,
+            image=self.profile[0].image
+        )
+        count_new = Profile.objects.count()
+        self.assertEquals(count_old+1, count_new)
     
     

@@ -1,22 +1,22 @@
-# import datetime
+from register.models import Profile
 from django.test import TestCase
-
+from django.contrib.auth.models import User
 from register.forms import UserRegisterForm
 
 class UserRegisterFormTest(TestCase):
-    pass
-
-    # def test_renew_form_date_too_far_in_future(self):
-    #     date = datetime.date.today() + datetime.timedelta(weeks=4) + datetime.timedelta(days=1)
-    #     form = UserRegisterForm(data={'renewal_date': date})
-    #     self.assertFalse(form.is_valid())
-
-    # def test_renew_form_date_today(self):
-    #     date = datetime.date.today()
-    #     form = UserRegisterForm(data={'renewal_date': date})
-    #     self.assertTrue(form.is_valid())
+    def setUp(self):
+        self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
+        self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')
         
-    # def test_renew_form_date_max(self):
-    #     date = timezone.localtime() + datetime.timedelta(weeks=4)
-    #     form = UserRegisterForm(data={'renewal_date': date})
-    #     self.assertTrue(form.is_valid())
+    
+
+    def test_renew_form_date_too_far_in_future(self):
+        form_data = {'username': self.user.username,
+                     'email': self.user.email,
+                     'password1': self.user.password,
+                     'password2': self.user.password,
+                     'image': self.profile[0].image,
+                     }
+        form = UserRegisterForm(data=form_data)
+        self.assertFalse(form.is_valid())
+
