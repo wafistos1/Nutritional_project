@@ -23,6 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%c#6#f5zdwz)+=') # development key for the moment
+# SECRET_KEY = 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%c#6#f5zdwz)+=' # development key for the moment
 
 """
 >>> import random, string
@@ -36,7 +37,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%
 DEBUG = True
     
 
-ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
+# ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -146,6 +148,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 INTERNAL_IPS = ['127.0.0.1']
@@ -153,8 +156,10 @@ INTERNAL_IPS = ['127.0.0.1']
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
     
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' # todo decomente cette ligne pour le deploiment 
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())# todo decomente cette ligne pour le deploiment

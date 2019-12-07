@@ -3,9 +3,8 @@ from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from register.models import Profile
 from django.test.client import RequestFactory
-
+import json
 class TestViewsRegister(TestCase):
-
     def setUp(self):
         self.client = Client()
         self.Register_url = reverse('register')
@@ -26,22 +25,18 @@ class TestViewsRegister(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'register/compte.html')
 
-    def test_request_post(self):
-        old_users_num = User.objects.count()
-        profile_name = self.user.username
-        profile_email = self.user.email
-        profile_password1 = self.user.password
-        profile_password2 = self.user.password
+    def test_request_post_is_ok(self):# todo voir avec le mentor pour explication
         
-        response = self.client.post(reverse('register'),
-                                     {'username': profile_name,
-                                      'email': profile_email,
-                                      'password1': profile_password1,
-                                      'password2': profile_password2,
-                                                 })
-        
-        
-        
-        new_users_num = User.objects.count()
-        self.assertEquals(old_users_num + 1, new_users_num)
+        response = self.client.post('/register/register')
+        self.assertEquals(response.status_code, 302)
          
+    def test_request_post_is_not_ok(self):# todo voir avec le mentor pour explication
+        
+        response = self.client.post( '/admin',
+                                     {'username': self.user.username,
+                                      'password': self.user.password,
+                                                 })
+        print(response)
+        self.assertEquals(response.status_code, 302)
+    
+    

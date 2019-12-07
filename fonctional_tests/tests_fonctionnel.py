@@ -4,12 +4,12 @@ from django.urls import reverse
 from store.models import Product, Favorite, Categorie
 from register.models import Profile
 from django.contrib.auth.models import User
-
 from selenium.webdriver.common.keys import Keys
 import time 
+
+
 class MySeleniumTests(LiveServerTestCase):
 
-    
     def setUp(self):
         self.selenium = WebDriver()
         self.selenium.implicitly_wait(10)        
@@ -19,14 +19,15 @@ class MySeleniumTests(LiveServerTestCase):
     
     def tearDown(self):
         self.selenium.quit()
-        
+
+       
     def test_login(self):
         self.selenium.get('%s%s' % (self.live_server_url, '/register/login/'))
         self.selenium.find_element_by_id("id_username").send_keys('wafistos4')
         self.selenium.find_element_by_id("id_password").send_keys('djamel2013')
         self.selenium.find_element_by_id('submitBtn').click()
         self.assertEquals(self.selenium.title, 'Pure Beurre')
-        
+
 
     def test_search(self):
         self.selenium.get('%s%s' % (self.live_server_url, '/store'))

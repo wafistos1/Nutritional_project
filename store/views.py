@@ -25,7 +25,7 @@ def resultats(request, page=1):
         paginator = Paginator(best_product, 15)
         best_product = paginator.page(page)
     except IndexError:
-        send_text = "essayez une autre recherche!!"
+        send_text = "Essayez un autre produit."
         produit = query 
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
     except EmptyPage:
