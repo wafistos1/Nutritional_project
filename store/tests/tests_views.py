@@ -20,14 +20,14 @@ class TestViews(TestCase):
         self.favorite = Favorite.objects.create(
             product_choice=self.product_choice,
             product_favorite=self.product_favorite,
-            user=self.user  
-        )
-        
+            user=self.user
+            )
+    
     def test_home_get(self):
             response = self.client.get(self.home_url)
             self.assertEquals(response.status_code, 200)
 
-    def test_resultats_get(self):# todo trouver le probleme du status=404 (alors que normalement status=200)
+    def test_resultats_get(self):# 
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get('/store/resultats?&q=Pepsi')
         search_product = Product.objects.filter(name='Pepsi').first()
@@ -36,7 +36,7 @@ class TestViews(TestCase):
         self.assertEquals(search_product.categorie, self.categorie)
         self.assertEquals(response.status_code, 200)
         
-    def test_resultats_get_best_product(self):# todo trouver le probleme du status=404 (alors que normalement status=200)
+    def test_resultats_get_best_product(self):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get('/store/resultats?&q=Cafe')
         search_product = Product.objects.filter(name='Cafe').first()
@@ -60,15 +60,6 @@ class TestViews(TestCase):
         response = self.client.get(self.aliment_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'store/aliment.html')
-    
-    
-    def save_aliment(self):
-        self.client.login(username= 'wafi', password='wafipass') 
-        response = self.client.get(self.save_aliment_url)
-        favorite_product = Product.objects.filter(pk=fav)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'store/save_aliment.html')
-
 
     def test_resultats_get_redirect(self):
         response = self.client.get(self.resultats_url)
@@ -79,42 +70,52 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 302)
     
     
-    def save_aliment_redirect(self):
+    def test_save_aliment_redirect(self):
         response = self.client.get(self.save_aliment_url)
         self.assertEquals(response.status_code, 302)
     
     def test_pagination_returns_last_page_if_page_out_of_range(self):
         self.client.login(username= 'wafi', password='wafipass') 
-        request = self.client.get('/store/resultats/')
-        response = self.client.get(request)        
+        response = self.client.get('/store/resultats/1')
+               
         # Check that if page is out of range (e.g. 999), deliver last page of results
        
         
-    def test_aliment_favorite(self):
-        self.client.login(username= 'wafi', password='wafipass') 
-        save_aliment = Favorite.objects.all().last()
-        self.assertEquals(save_aliment.product_choice.name, 'Cafe')
-        self.assertEquals(save_aliment.product_favorite.name, 'Pepsi')
-        self.assertEquals(save_aliment.product_choice.grade, 'B')
-        self.assertEquals(save_aliment.product_favorite.grade, 'A')
-        self.assertTrue(save_aliment.user.email == 'wafi@gmail.com')
-        
-        
-    def test_save_aliment(self):
-        self.client.login(username= 'wafi', password='wafipass') 
-        save_aliment = Favorite.objects.all().last()
-        self.assertEquals(save_aliment.product_choice.name, 'Cafe')
-        self.assertEquals(save_aliment.product_favorite.name, 'Pepsi')
-        self.assertEquals(save_aliment.product_choice.grade, 'B')
-        self.assertEquals(save_aliment.product_favorite.grade, 'A')
-        self.assertTrue(save_aliment.user.email == 'wafi@gmail.com')
                
-    def save_aliment_is_ok(self):
+    def test_save_aliment_is_ok(self):
         self.client.login(username= 'wafi', password='wafipass') 
-        response = self.client.get('/store/aliment/1/2/')
-        favorite_product = Product.objects.filter(pk=1)
-        choice_product = Product.objects.filter(pk=2)
-        print('coucou') 
+        response = self.client.get(f'/store/aliment/{self.product_choice.id}/{self.product_favorite.id}/')
+        product_choice = Product.objects.filter(pk=self.product_choice.id)
+        product_favorite = Product.objects.filter(pk=self.product_favorite.id)
+        favorite = Favorite.objects.get_or_create(
+            product_choice=product_choice[0],
+            product_favorite=product_favorite[0],
+            user=self.user
+        )
+        self.assertEquals(favorite[0].product_choice.name , 'Cafe')
+        self.assertEquals(response.status_code, 200)
+        
+        
+    
+    def test_delete_aliment_is_ok(self):
+        self.client.login(username= 'wafi', password='wafipass') 
+        response = self.client.get(f'/store/aliment_delete/{self.favorite.id}')
+        delete_favorite = Favorite.objects.filter(id=self.favorite.id, user=self.user)
+        if delete_favorite.exists():
+            
+            delete_favorite.delete()
+        self.assertQuerysetEqual(delete_favorite, [])
+        
+    
+    def test_delete_aliment_is_not_ok(self):
+        self.client.login(username= 'wafi', password='wafipass') 
+        response = self.client.get(f'/store/aliment_delete/1000000000')
+        delete_favorite = Favorite.objects.filter(id=None)
+        self.assertEquals(response.status_code, 200)
+        
+
+         
+         
     """
     # todo Reste a teste
     def resultats(request, page=1): 

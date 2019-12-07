@@ -63,7 +63,6 @@ def detail_favori(request, pk):
 
 @login_required(login_url = 'login')
 def aliment_delete(request, pk):
-
     favorite = Favorite.objects.filter(pk=pk, user=request.user)
     if favorite.exists():
         if request.user == favorite[0].user:
