@@ -2,8 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from register.models import Profile
-from django.test.client import RequestFactory
-import json
+
+
+
 class TestViewsRegister(TestCase):
     def setUp(self):
         self.client = Client()
@@ -13,22 +14,18 @@ class TestViewsRegister(TestCase):
         self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')
         
 
-
     def test_Register_get(self):
         response = self.client.get(self.Register_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'register/user.html')
+        
 
     def test_compte_get(self):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get(self.compte_url)
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'register/compte.html')
-
-    # def test_request_post_is_ok(self):
         
-    #     response = self.client.post('/register/register')
-    #     self.assertEquals(response.status_code, 302)
          
     def test_request_post_is_ok(self):
         count_old = Profile.objects.count()

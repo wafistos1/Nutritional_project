@@ -3,12 +3,12 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from register.forms import UserRegisterForm
 
+
 class UserRegisterFormTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
         self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')
         
-    
 
     def test_renew_form_date_too_far_in_future(self):
         form_data = {'username': self.user.username,
