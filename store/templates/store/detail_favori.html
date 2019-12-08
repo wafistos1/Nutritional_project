@@ -32,6 +32,16 @@
             </div>
           </div>
         </div>
+        <div>
+          {% if favorite.product_favorite.detail_igredient  %}
+          <h3>Détail du produits </h3>
+          <p> {{favorite.product_favorite.detail_igredient }} </p>
+          {%  endif %}
+          <h3>Liste des ingrédients </h3>
+          <img class="img-responsive"  width="60%"  src="{{favorite.product_favorite.detail_nutrition_url }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+          <p>  </p>
+          <p> Pour plus de détail <a href="{{favorite.product_favorite.url }}">ICI</a>  </p>
+        </div>
       </div>
 
 
@@ -42,7 +52,7 @@
                     <h5>{{favorite.product_choice.name|truncatewords:3 }}</h5>
                 </div>
                 <div class="card-body">
-                        <h5>Produit selectionne</h5>
+                        <h5>Produit sélectionné</h5>
                     </div>
               <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">

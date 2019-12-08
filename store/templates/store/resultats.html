@@ -28,14 +28,30 @@
                                     </div>
                                   <div class="card-body">
                                     <div class="d-flex justify-content-between align-items-center">
-
-                                      <div class="section_subtitle">Grade: {{ data.grade|upper }}</div>
+                                      {% if data.detail_igredient%}
+                                      <div class="section_subtitle">Detail: {{ data.detail_igredient}}</div>
+                                      {% endif %}
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                              
+                              <div>
+                                {% if data.grade == a %}
+                                <img class="img-responsive"  width="100%" height="200" src="{% static 'img/nutriscore-a.svg'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                {%  elif data.grade == b %}
+                                <img class="img-responsive"  width="100%" height="200" src="{% static 'img/nutriscore-b.svg'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+                                {%  elif data.grade == c %}
+                                <img class="img-responsive"  width="100%" height="200" src="{% static 'img/nutriscore-c.svg'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+                                {%   else%}
+                                <img class="img-responsive"  width="100%" height="200" src="{% static 'img/nutriscore-e.svg'%}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+                                {% endif %}
+                              </div>
                             </div>
+                              
+                            
                           </div>
                         </div>
                       

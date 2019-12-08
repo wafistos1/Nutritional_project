@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 }
             json_data = requests.get(api_search, params=payload).json()
             taille = len(json_data['products'])
-            print(f'{taille} produits touver dans la categorie {index}')
+            print(f'{taille} Produits trouvés dans la catégorie {index}')
 
             # The loop that inserts the data into my tables
             for i in range(taille):
@@ -46,17 +46,27 @@ class Command(BaseCommand):
                     name = json_data['products'][i]['product_name']
                     grade = json_data['products'][i]['nutrition_grades_tags'][0]
                     image1 = json_data['products'][i]['image_front_url']
-                    # todo : add url link to OpenfoodFacts 
+                    igredient_text = json_data['products'][i]['ingredients_text']
+                    image_nutrition_url = json_data['products'][i]['image_nutrition_url']
+                    url = json_data['products'][i]['url']
                     
                     categorie = index
 
                     categorie_ins, created = Categorie.objects.get_or_create(name=categorie)
 
-                    product = Product.objects.get_or_create(name=name, grade=grade, images=image1, categorie=categorie_ins)
+                    product = Product.objects.get_or_create(
+                        name=name,
+                        grade=grade,
+                        images=image1,
+                        categorie=categorie_ins,
+                        detail_igredient=igredient_text,
+                        url=url,
+                        detail_nutrition_url=image_nutrition_url,
+                        )
                 except(KeyError, TypeError) as error:
-                    continue
-                except IntegrityError:
-                    continue
+                    print(error)
+                except IntegrityError as errorif:
+                    print('errorif')
 
         
         self.stdout.write(self.style.SUCCESS('upload data done'))
