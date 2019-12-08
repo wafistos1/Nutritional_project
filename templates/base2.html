@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     {% block Title %}
-    <title>Creative - Start Bootstrap Theme</title>
+    <title>Pure Beurre</title>
     {% endblock Title %}
 
     <!-- Font Awesome Icons -->
@@ -150,7 +150,7 @@
             </div>
         </div>
     </section>
-
+ {% block content %}
     <!-- Portfolio Section -->
     <section id="portfolio">
         <div class="container-fluid p-0">
@@ -236,7 +236,7 @@
             </div>
         </div>
     </section>
-
+    {% endblock content %}
     <!-- Call to Action Section -->
     <section class="page-section bg-dark text-white">
         <div class="container text-center">
@@ -286,7 +286,7 @@
     <script src="vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/creative.min.js"></script>
+    <script src="{% static 'js/creative.min.js' %} "></script>
 
 </body>
 

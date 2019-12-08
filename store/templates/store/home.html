@@ -1,69 +1,77 @@
 {% extends "base.html" %}
+{% block title %}
+<title>Home</title>
+{% endblock title %}
 {% block content %}
 {% load static %}
 <section class="page-section bg-primary" id="about">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8 ">
-          <h2 class="text-white mt-0">-Du gras, oui mais de qualite!</h2>
-          <h2 class="text-white mt-0">-Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
-          <form method="GET" action="{% url 'resultats' %}">
-            {% csrf_token %}
-          <input type="text"  name="q" Recherche placeholder="Rechercher un produit">
-          <input type="submit"   value="Search">         
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 ">
+        <h2 class="text-white mt-0">Du gras, oui mais de qualite!</h2>
+        <h2 class="text-white mt-0">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
+        <form method="GET" action="{% url 'resultats' %}" class="form-inline ">
+          {% csrf_token %}
+
+          <input type="text" class="form-control form-control-sm mr-3 w-75" name="q" Recherche
+            placeholder="Rechercher un produit" aria-label="Search">
+          <button type="submit"><i class="fa fa-search"></i></button>
         </form>
 
-        </div>
-        {% if produit %}
-        <h2 class="text-center text-uppercase m-4">desole mais aucun corespondance pour ce produit: {{ produit }}</h2>
-        {% endif %}
-      
+      </div>
+      {% if produit %}
+      <h2 class="text-white mt-1">Désolé mais aucun correspondance pour ce produit: <h1>{{ produit }}</h1>
+      </h2>
+      {% endif %}
 
 
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Call to Action Section -->
+<section class="page-section bg-dark text-white">
+  <div class="container text-center">
+    <h2 class="mb-4">Colette et Remy</h2>
+    <h2 class="mb-4">Histoire</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 d-flex justify-content-between" id="images-centre"><img class="img-fluid rounded-circle"
+        src="{% static 'img/colette-4.jpg' %}" width="30%"><img class="img-fluid rounded-circle"
+        src="{% static 'img/remy-4.jpg' %}" width="50%"></div>
+    <div class="col-md-4"></div>
+  </div>
+</section>
+<section class="page-section" id="contact">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 text-center">
+        <h2 class="mt-0">Contactez-nous</h2>
+        <hr class="divider my-4">
+        <p class="text-muted mb-5">Tu es ce que tu manges!</p>
       </div>
     </div>
-  </section>
+    <div class="row">
+      <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
+        <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
+        <div>Tel: (111) 555-1234</div>
+      </div>
+      <div class="col-lg-4 mr-auto text-center">
+        <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
+        <!-- Make sure to change the email address in anchor text AND the link below! -->
+        <a class="d-block" href="mailto:mameri.wafi@gmail.com">mameri.wafi@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 
 
-    <!-- Call to Action Section -->
-    <section class="page-section bg-dark text-white">
-            <div class="container text-center">
-              <h2 class="mb-4">Colette et Remy</h2>
-              <h2 class="mb-4">Histoire</h2>
-            </div>
-            <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4 d-flex justify-content-between" id="images-centre"><img src="{% static 'img/colette-4.jpg' %}" width="30%" ><img src="{% static 'img/ratatouille-11.jpg' %}" width="50%"></div>
-            <div class="col-md-4"></div>
-          </div>
-          </section>
-    <section class="page-section" id="contact">
-        <div class="container">
-            <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h2 class="mt-0">Contactez-nous</h2>
-                <hr class="divider my-4">
-                <p class="text-muted mb-5">Tu es ce que tu manges!</p>
-            </div>
-            </div>
-            <div class="row">
-            <div class="col-lg-4 ml-auto text-center mb-5 mb-lg-0">
-                <i class="fas fa-phone fa-3x mb-3 text-muted"></i>
-                <div>Tel: (111) 555-1234</div>
-            </div>
-            <div class="col-lg-4 mr-auto text-center">
-                <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
-                <!-- Make sure to change the email address in anchor text AND the link below! -->
-                <a class="d-block" href="mailto:mameri.wafi@gmail.com">mameri.wafi@gmail.com</a>
-            </div>
-            </div>
-        </div>
-        </section>
-        
-
-
-  <!-- Contact Section -->
+<!-- Contact Section -->
 
 
 

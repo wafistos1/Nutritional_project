@@ -1,20 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
+{% block title %}
+<title>Détails produits</title>
+{% endblock title %}
 {% block content %}
 
-<main role="main">
+<main role="main"   style="background-image: url('{{ STATIC_URL }}img/fond3.jpg') no-repeat;">
+   
 
+    <div class="container">
         <section class="jumbotron text-center">
           <div class="container">
-            <h2>Produits Favoris </h2>
+            <h1 id="h1">Produits Favoris </h1>
           </div>
         </section>
       
+
+
+
+
+
         <div class="album py-5 bg-light">
           <div class="container">
             <div class="row">
 
-<div class="col-md-4" >
+          <div class="col-md-4" >
         <div class="card mb-4 shadow-sm">
           <img class="img-responsive"  width="80%" height="225" src="{{ favorite.product_favorite.images  }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
             <div class="card-body">
@@ -35,12 +45,12 @@
         <div>
           {% if favorite.product_favorite.detail_igredient  %}
           <h3>Détail du produits </h3>
-          <p> {{favorite.product_favorite.detail_igredient }} </p>
+          <p class="mb-3"> {{favorite.product_favorite.detail_igredient }} </p>
           {%  endif %}
           <h3>Liste des ingrédients </h3>
           <img class="img-responsive"  width="60%"  src="{{favorite.product_favorite.detail_nutrition_url }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
           <p>  </p>
-          <p> Pour plus de détail <a href="{{favorite.product_favorite.url }}">ICI</a>  </p>
+          <p class="mb-3"> Pour plus de détail <a href="{{favorite.product_favorite.url }}">ICI</a>  </p>
         </div>
       </div>
 

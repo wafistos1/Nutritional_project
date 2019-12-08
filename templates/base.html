@@ -8,8 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="Ouafi MAMERI">
-  
+  {% block title %}
   <title>Pure Beurre</title>
+  {% endblock title %}
   <!-- Link Bootstrap CSS -->
       
   <!-- Link Bootstrap JS and JQuery -->
@@ -89,6 +90,7 @@
 
 
   <!-- About Section -->
+  <section style="background-image: url('{{ STATIC_URL }}/img/fond3.jpg') no-repeat;">
   {% block content %}
 
 
@@ -102,6 +104,7 @@
   <!-- Contact Section -->
 
   {% endblock  %}
+</section>
   <!-- Footer -->
 {% block footer%}
   <footer class="bg-transparent py-5 text-dark">
