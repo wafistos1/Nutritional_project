@@ -1,8 +1,10 @@
-{% extends "base.html" %}
+{% extends "base2.html" %}
 {% block title %}
 <title>Home</title>
 {% endblock title %}
-{% block content %}
+{% block content%}
+{% endblock %}
+{% block content1 %}
 {% load static %}
 <section class="page-section bg-primary" id="about">
   <div class="container">
@@ -10,13 +12,6 @@
       <div class="col-lg-8 ">
         <h2 class="text-white mt-0">Du gras, oui mais de qualite!</h2>
         <h2 class="text-white mt-0">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</h2>
-        <form method="GET" action="{% url 'resultats' %}" class="form-inline ">
-          {% csrf_token %}
-
-          <input type="text" class="form-control form-control-sm mr-3 w-75" name="q" Recherche
-            placeholder="Rechercher un produit" aria-label="Search">
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
 
       </div>
       {% if produit %}
@@ -75,4 +70,6 @@
 
 
 
-{% endblock%}
+{% endblock content1%}
+{% block content2%}
+{% endblock content2%}
