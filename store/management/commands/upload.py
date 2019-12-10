@@ -5,9 +5,6 @@ import requests
 
 class Command(BaseCommand):
     help = 'Uplaod data from OpenFactFood API'
-
-
-
     # def add_arguments(self, parser):
     #     parser.add_arguments('upload', type=str, help='upload data from OpenFactFood API')
     
@@ -22,6 +19,7 @@ class Command(BaseCommand):
             'Biscuits',
             'Petit-déjeuners',
             'Chocolats',
+            'Salade',
             ]
 
         for index in list_categories:
@@ -64,9 +62,9 @@ class Command(BaseCommand):
                         detail_nutrition_url=image_nutrition_url,
                         )
                 except(KeyError, TypeError) as error:
-                    print(error)
+                    continue
                 except IntegrityError as errorif:
-                    print('errorif')
+                    continue
 
         
         self.stdout.write(self.style.SUCCESS('upload data done'))
