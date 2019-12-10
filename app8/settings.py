@@ -44,11 +44,10 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # Extra places for collectstatic to find static files.
     STATICFILES_DIRS = (
         os.path.join(PROJECT_ROOT, 'static'),
-        db_from_env = dj_database_url.config(conn_max_age=500)
+        )
+    db_from_env = dj_database_url.config(conn_max_age=500)
     DATABASES['default'].update(db_from_env)
-
     django_heroku.settings(locals())# todo decomente cette ligne pour le deploiment
-    )
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 else:
     DEBUG = True
