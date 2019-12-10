@@ -33,12 +33,25 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'ol&r6n+p7x2veeouze8+9v+muuv#a$(31t_0%
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in production!
+if os.environ.get('ENV') == 'PRODUCTION':
+    DEBUG = False
+    # Static files settings
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-DEBUG = True
+    STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+    # Extra places for collectstatic to find static files.
+    STATICFILES_DIRS = (
+        os.path.join(PROJECT_ROOT, 'static'),
+    )
+else:
+    DEBUG = True
+
     
 
 # ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://openfoodproject2.herokuapp.com']
 
 
 # Application definition
