@@ -159,9 +159,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),# TODO comente cette ligne pour le deploiment
-]
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, "static"),# TODO comente cette ligne pour le deploiment
+# ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 INTERNAL_IPS = ['127.0.0.1']
@@ -173,9 +173,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-# django_heroku.settings(locals())
+django_heroku.settings(locals()) # ! decomment pour les tests
 
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# todo decomente cette ligne pour le deploiment 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# ! decomment pour les tests 
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
