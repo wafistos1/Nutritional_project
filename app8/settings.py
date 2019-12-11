@@ -48,8 +48,8 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     
 
-# ALLOWED_HOSTS = ['openfoodproject2.herokuapp.com']
-ALLOWED_HOSTS = ['projet8openclassrooms.herokuapp.com']
+# ALLOWED_HOSTS = ['projet8openclassrooms.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -173,9 +173,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# todo decomente cette ligne pour le deploiment 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# todo decomente cette ligne pour le deploiment 
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

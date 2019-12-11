@@ -44,4 +44,4 @@ class TestViewsRegister(TestCase):
         count_new = Profile.objects.count()
         self.assertEquals(count_old+1, count_new)
     
-    
+    #todo faire les test de formulaire, messages et le redirect URGENT 

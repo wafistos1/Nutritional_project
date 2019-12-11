@@ -46,7 +46,7 @@
                     <li class="nav-item" class="form-inline">
                         <form method="GET" action="{% url 'resultats' %}" class="form-inline active-cyan-4">
                             {% csrf_token %}
-                            <input type="text" name="q" Recherche placeholder="Rechercher un produit" class="form-control form-control-sm mr-3 w-75" aria-label="Search">
+                            <input type="text" name="q" Recherche placeholder="Rechercher un produit" id="submitId" class="form-control form-control-sm mr-3 w-75" aria-label="Search">
                           <i class="fas fa-search" aria-hidden="true"></i>
                         </form>
                     </li>
@@ -98,7 +98,7 @@
                     </p>
                     <form method="GET" action="{% url 'resultats' %}">
                         {% csrf_token %}
-                        <input type="text" name="q" Recherche placeholder="Rechercher un produit">
+                        <input type="text" name="q" Recherche placeholder="Rechercher un produit" >
                         <input class="btn btn-primary btn-xl js-scroll-trigger" type="submit" value="Recherche">
                     </form>
                 </div>
