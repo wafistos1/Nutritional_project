@@ -30,11 +30,11 @@
     {% block nav %}
     <!-- Navigation -->
     <!-- link awesome for icon-->
-    <script src="https://kit.fontawesome.com/d1c525ecac.js" crossorigin="anonymous"></script> 
+    <script src="https://kit.fontawesome.com/d1c525ecac.js" crossorigin="anonymous"></script>
 
     <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
         <div class="container">
-            <a class="navbar-brand js-scroll-trigger" ><img width="50%" src="{% static 'img/logo_pur_beurre.svg'%}"></a>
+            <a class="navbar-brand js-scroll-trigger"><img width="50%" src="{% static 'img/logo_pur_beurre.svg'%}"></a>
             <a class="navbar-brand js-scroll-trigger" href="{% url 'home' %}">Pure Beurre</a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                 data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
@@ -46,34 +46,55 @@
                     <li class="nav-item" class="form-inline">
                         <form method="GET" action="{% url 'resultats' %}" class="form-inline active-cyan-4">
                             {% csrf_token %}
-                            <input type="text" name="q" Recherche placeholder="Rechercher un produit" id="submitId" class="form-control form-control-sm mr-3 w-75" aria-label="Search">
-                          <i class="fas fa-search" aria-hidden="true"></i>
+                            <input type="text" name="q" Recherche placeholder="Rechercher un produit" id="submitId"
+                                class="form-control form-control-sm mr-3 w-75" aria-label="Search">
+                            <i class="fas fa-search" aria-hidden="true"></i>
                         </form>
+
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto my-2 my-lg-3">
                     <li class="nav-item">
-                    {% if user.is_authenticated %}
-                        <a class="nav-link js-scroll-trigger" href="{% url 'compte' %}"><i class="fas fa-user fa-2x" style="color: #86EBE6;" ></i></i></a> <!--compte-->
+                        {% if user.is_authenticated %}
+                        <a class="nav-link js-scroll-trigger" href="{% url 'compte' %}" alt="Compte" title="Compte"><i
+                                class="fas fa-user fa-2x" style="color: #DE9440;"></i></i></a>
+                        <!--compte-->
                     <li class="nav-item">
-                    {% endif %}
-                        <a class="nav-link js-scroll-trigger"href="{% url 'aliment' %}" ><i class="fas fa-carrot fa-2x" style="color: #86EBE6;" ></i></a> <!--Aliment-->
+                        {% endif %}
+                        <a class="nav-link js-scroll-trigger" href="{% url 'aliment' %}" alt="Aliment"
+                            title="Aliment"><i class="fas fa-carrot fa-2x" style="color: #DE9440;"></i></a>
+                        <!--Aliment-->
                     </li>
 
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <p class="nav-link js-scroll-trigger">{{ user|capfirst }}</p>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}"  > <i class="fas fa-sign-out-alt fa-2x" style="color: #86EBE6;" ></i></a> <!--logout-->
-                    </li>
 
+
+                    {% if user.is_authenticated %}
+
+
+                    <li class="nav-item">
+                        <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}" alt="logout" title="logout"> <i
+                                class="fas fa-sign-out-alt fa-2x" style="color: #DE9440;"></i></a>
+                        <!--logout-->
+                    </li>
+                    <div class="btn-group open">
+                            <a class="btn btn-primary" href="#"><i class="fa fa-user fa-fw"></i> {{ user|capfirst }}</a>
+                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                            </a>
+                            <ul class="dropdown-menu">
+                              <li><a href="#"><i class="fa fa-pencil fa-fw"></i> Edit</a></li>
+                              <li><a href="#"><i class="fa fa-trash-o fa-fw"></i> Delete</a></li>
+                            </ul>
+                    </div>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'login' %}"><i class="fas fa-sign-in-alt fa-2x" style="color: #86EBE6;" ></i></a><!--login-->
+                        <a class="nav-link js-scroll-trigger" href="{% url 'login' %}" alt="login" title="login"><i
+                                class="fas fa-sign-in-alt fa-2x" style="color: #DE9440;"></i></a>
+                        <!--login-->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="{% url 'register' %}"><i class="fas fa-user-plus fa-2x" style="color: #86EBE6;"></i></a><!--signin-->
+                        <a class="nav-link js-scroll-trigger" href="{% url 'register' %}" alt="signin" title="signin"><i
+                                class="fas fa-user-plus fa-2x" style="color: #DE9440;"></i></a>
+                        <!--signin-->
                     </li>
                     {% endif %}
 
@@ -96,15 +117,29 @@
                     <p class="text-white-75 font-weight-light mb-5">Savoir c'est pouvoir. Connaître les aliments permet
                         de manger mieux !
                     </p>
-                    <form method="GET" action="{% url 'resultats' %}">
+                </div>
+                <div class="col-10 col-md-5 col-lg-6 ">
+                    <form class="card card-sm" method="GET" action="{% url 'resultats' %}">
                         {% csrf_token %}
-                        <input type="text" name="q" Recherche placeholder="Rechercher un produit" >
-                        <input class="btn btn-primary btn-xl js-scroll-trigger" type="submit" value="Recherche">
+                        <div class="card-body row no-gutters align-items-center">
+
+                            <!--end of col-->
+                            <div class="col">
+                                <input type="text" name="q" class="form-control form-control-lg form-control-borderless"
+                                    type="search" placeholder="Rechercher un produit">
+                            </div>
+                            <!--end of col-->
+                            <div class="col-auto">
+                                <button class="btn btn-lg btn-primary" type="submit">Recherche</button>
+                            </div>
+                            <!--end of col-->
+                        </div>
                     </form>
                 </div>
-
             </div>
+
         </div>
+
     </header>
     {% endblock header %}
     <!-- About Section -->
@@ -174,8 +209,10 @@
     <section class="page-section bg-dark text-white">
         <div class="container text-center">
             <h2 class="mb-4">OpenFoodFacts La base de données libre sur les produits alimentaires.</h2>
-            <h5 class="mb-4">Ce site permettra à quiconque de trouver un substitut sain à un aliment considéré comme "Trop gras, trop sucré, trop salé"</h2>
-            <a class="btn btn-light btn-xxl" href="https://fr.openfoodfacts.org">En savoir plus sur OpenFoodFacts</a>
+            <h5 class="mb-4">Ce site permettra à quiconque de trouver un substitut sain à un aliment considéré comme
+                "Trop gras, trop sucré, trop salé"</h2>
+                <a class="btn btn-light btn-xxl" href="https://fr.openfoodfacts.org">En savoir plus sur
+                    OpenFoodFacts</a>
         </div>
     </section>
     {% block content2%}
@@ -184,10 +221,11 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="mt-0">Let's Get In Touch!</h2>
+                    <h2 class="mt-0">Découvrir Open Food Facts</h2>
+                    <a class="btn btn-light btn-xxl" href="https://fr.openfoodfacts.org">En savoir plus sur
+                        OpenFoodFacts</a>
                     <hr class="divider my-4">
-                    <p class="text-muted mb-5">Ready to start your next project with us? Give us a call or send us an
-                        email and we will get back to you as soon as possible!</p>
+                    <p class="text-muted mb-5">Contactez-nous</p>
                 </div>
             </div>
             <div class="row">
@@ -207,9 +245,19 @@
     <!-- Footer -->
     {% block footer %}
     <footer class="bg-transparent py-5 text-dark">
-        <div class="container">
+        <div class="container ">
+
             <div class="small text-center text-muted">CopyLeft &copy; 2019 - Ouafi MAMERI</div>
+            <div class="row justify-content-center">
+                <a class="nav-link js-scroll-trigger" href="https://github.com/wafistos1/Projet8Bis" alt="GitHub"
+                    title="GitHub"><i class="fab fa-git-square fa-2x" style="color: #DE9440;"></i></i></a>
+                <a class="nav-link js-scroll-trigger" href="mailto:mameri.wafi@gmail.com" alt="Gmail" title="Gmail"><i
+                        class="fas fa-envelope-square fa-2x" style="color: #DE9440;"></i></i></a>
+                <a class="nav-link js-scroll-trigger" href="https://trello.com/b/yZ5EgIeq/pure-beurre" alt="Trello"
+                    title="Trello"><i class="fab fa-trello fa-2x" style="color: #DE9440;"></i></i></a>
+            </div>
         </div>
+        <i class="fab fa-trello"></i>
     </footer>
     {% endblock footer %}
     <!-- Bootstrap core JavaScript -->

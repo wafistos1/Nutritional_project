@@ -54,8 +54,7 @@ class TestViews(TestCase):
         number_of_search_product = search_product.count()
         self.assertEquals(number_of_search_product, 0)
         self.assertEquals(response.status_code, 200)
-
-        
+    
     def test_aliment_get(self):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get(self.aliment_url)
@@ -69,7 +68,6 @@ class TestViews(TestCase):
     def test_aliment_get_redirect(self):
         response = self.client.get(self.aliment_url)
         self.assertEquals(response.status_code, 302)
-    
     
     def test_save_aliment_redirect(self):
         response = self.client.get(self.save_aliment_url)
@@ -92,8 +90,6 @@ class TestViews(TestCase):
         self.assertEquals(favorite[0].product_choice.name , 'Cafe')
         self.assertEquals(response.status_code, 200)
         
-        
-    
     def test_delete_aliment_is_ok(self):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get(f'/store/aliment_delete/{self.favorite.id}')

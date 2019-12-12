@@ -77,5 +77,3 @@ class TestViewsRegister(TestCase):
         self.assertEqual(profile.user.username, "wafistos201")
         self.assertEqual(profile.user.email, "wafi@gmail.com")
         self.assertEqual(profile.image.url, "/media/default.jpg")
-    
-    #todo faire les test de formulaire, messages et le redirect URGENT 

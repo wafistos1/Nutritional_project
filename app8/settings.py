@@ -159,9 +159,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),# TODO commenter cette ligne pour le deploiment
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),# TODO commenter cette ligne pour le deploiment
+]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 INTERNAL_IPS = ['127.0.0.1']
