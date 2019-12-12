@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
 from register.models import Profile
-
+from register.forms import UserRegisterForm, profileForm
 
 
 class TestViewsRegister(TestCase):
@@ -43,5 +43,39 @@ class TestViewsRegister(TestCase):
         )
         count_new = Profile.objects.count()
         self.assertEquals(count_old+1, count_new)
+
+
+    def test_valid_data(self):
+        """Testing valid data 
+        """
+        response = self.client.post( '/register/register/',
+                                     {
+                                         'username': 'wafistos200',
+                                         'email': 'wafi@gmail.com',
+                                         'password1': 'toto2013',
+                                         'password2': 'toto2013',
+                                         'image': '/media/default.jpg',
+                                                 })
+        form = UserRegisterForm({
+            'username': 'wafistos201',
+            'email': 'wafi@gmail.com',
+            'password1': 'toto2013',
+            'password2': 'toto2013',
+        })
+        form_profile = profileForm(data={
+            'user': form,
+            'image': '/media/default.jpg',
+            
+            })
+
+        self.assertTrue(form.is_valid() and form_profile.is_valid())
+        if form.is_valid() and form_profile.is_valid():
+            user = form.save()
+            profile = form_profile.save(commit=False)
+            profile.user = user
+            profile.save()
+        self.assertEqual(profile.user.username, "wafistos201")
+        self.assertEqual(profile.user.email, "wafi@gmail.com")
+        self.assertEqual(profile.image.url, "/media/default.jpg")
     
     #todo faire les test de formulaire, messages et le redirect URGENT 

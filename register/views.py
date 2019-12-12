@@ -14,7 +14,7 @@ def Register(request):
         user_form = UserRegisterForm(request.POST)
         profile_form = profileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
+            user = user_form.save() 
             profile = profile_form.save(commit=False)
             profile.user = user
             profile.save()

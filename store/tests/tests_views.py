@@ -24,8 +24,9 @@ class TestViews(TestCase):
             )
     
     def test_home_get(self):
-            response = self.client.get(self.home_url)
+            response = self.client.get('/store/')
             self.assertEquals(response.status_code, 200)
+            self.assertTemplateUsed( 'home.html')
 
     def test_resultats_get(self):# 
         self.client.login(username= 'wafi', password='wafipass') 
@@ -78,10 +79,6 @@ class TestViews(TestCase):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get('/store/resultats/1')
                
-        # Check that if page is out of range (e.g. 999), deliver last page of results
-       
-        
-               
     def test_save_aliment_is_ok(self):
         self.client.login(username= 'wafi', password='wafipass') 
         response = self.client.get(f'/store/aliment/{self.product_choice.id}/{self.product_favorite.id}/')
@@ -113,29 +110,15 @@ class TestViews(TestCase):
         delete_favorite = Favorite.objects.filter(id=None)
         self.assertEquals(response.status_code, 200)
         
+    def test_detail_fovorite(self):
+        self.client.login(username= 'wafi', password='wafipass') 
+        response = self.client.get(f'/store/detail_favori/{self.favorite.id}')
+        favorite = Favorite.objects.filter(id=self.favorite.id)
+        self.assertEquals(response.status_code, 200)
+        
 
          
          
     """
-    # todo Reste a teste
-    def resultats(request, page=1): 
-     1-query = request.GET.get('q').capitalize()
-     2-best_product = Product.objects.filter(categorie=data[0].categorie).filter(grade__lt=data[0].grade).order_by("grade")
-     3-send_text = "essayez une autre recherche!!"
-     4-except EmptyPage:
-     
-    def save_aliment(request, fav, prod): 
-     1-favorite_product = Product.objects.filter(pk=fav)
-     2-favorite = Favorite.objects.get_or_create( ...)
-     3-return render(request, 'store/save_aliment.html', {'favorite': favorite[0]})
-     
-    def detail_favori(request, pk): 
-    1-favorite = Favorite.objects.filter(pk=pk, user=request.user) 
-    2-return render(request, 'store/detail_favori.html', {'favorite': favorite[0]})
-    
-    def aliment_delete(request, pk):
-    1-favorite = Favorite.objects.filter(pk=pk, user=request.user)
-    2-if favorite.exists():
-    3-else: 
-    4-return render(request, 'store/aliment_delete.html')
+
     """
