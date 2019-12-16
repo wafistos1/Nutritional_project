@@ -23,7 +23,6 @@ class Product(models.Model):
     detail_igredient = models.TextField(default='None')
     url = models.URLField(max_length=500, default='None')
     detail_nutrition_url = models.URLField(max_length=500, default='None')
-    # todo : Add field for url product (link OpenFoodFacts)
     """
     igredient_text
     image_nutrition_url Ok

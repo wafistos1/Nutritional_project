@@ -5,7 +5,17 @@
 {% endblock title %}
 {% block content %}
 
+{% for msg in messages %}
+      
+<ul class="messages">
+  <li class="list-group-item">
+      <div class="alert alert-{{msg.level_tag}}" role="alert">
+        {{ msg.message}}
+      </div>
+  </li>
+</ul>
 
+{% endfor %}
 {% endblock %}
 {% block content1 %}
 
