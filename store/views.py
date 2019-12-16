@@ -3,8 +3,9 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from store.models import Product, Favorite
+from django.contrib.messages import SUCCESS, ERROR
+from django.contrib import messages
 
 # Global variable
 query = None
@@ -25,13 +26,15 @@ def resultats(request, page=1):
         query = request.GET.get('q').capitalize()
     try:
         data = Product.objects.filter(name__contains=query)
-        best_product = Product.objects.filter(
-            categorie=data[0].categorie
-            ).filter(grade__lt=data[0].grade).order_by("grade")
+        best_product = Product.objects.filter(categorie=data[0].categorie).filter(grade__lt=data[0].grade).order_by("grade")
+        if not best_product:
+            text = 'Vous avez choisi le meilleur produit nutitionnelle'
+            return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product, 'text': text})
         paginator = Paginator(best_product, 15)
         best_product = paginator.page(page)
     except IndexError:
         send_text = "Essayez un autre produit."
+        print('coucou')
         produit = query
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
     except EmptyPage:
@@ -80,7 +83,7 @@ def aliment_delete(request, pk):
     if favorite.exists():
         if request.user == favorite[0].user:
             favorite[0].delete()
-            messages.add_message(request, messages.SUCCESS, 'Produit supprimer avec succès ')
+            messages.add_message(request, SUCCESS, 'Produit supprimer avec succès ')
         else:
-            messages.add_message(request, messages.ERROR, "On ne peut pas supprimer ces produits car vous n'êtes pas le propriétaire  ")
+            messages.add_message(request, ERROR, "On ne peut pas supprimer ces produits car vous n'êtes pas le propriétaire  ")
     return render(request, 'store/aliment_delete.html')
