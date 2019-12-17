@@ -48,8 +48,8 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
     
 
-ALLOWED_HOSTS = ['projet8openclassrooms.herokuapp.com']#!commenter pour heroku 
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['projet8openclassrooms.herokuapp.com']#!commenter pour heroku 
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -71,15 +71,16 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #'django.middleware.locale.localeMiddleware', # changer le language de l'administration
+    'django.middleware.locale.LocaleMiddleware', # changer le language de l'administration
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'app8.urls'
@@ -97,6 +98,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.i18n",
             ],
         },
     },
@@ -152,6 +154,12 @@ USE_L10N = True # Permet de formater automatiquement certaines données en fonct
 # lien cours https://openclassrooms.com/fr/courses/1871271-developpez-votre-site-web-avec-le-framework-django/1874201-linternationalisation
 USE_TZ = True
 
+gettext = lambda x: x
+
+LANGUAGES = (
+   ('fr', gettext('French')),
+   ('en', gettext('English')),
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -159,9 +167,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),# TODO commenter cette ligne pour le deploiment
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),# TODO commenter cette ligne pour le deploiment
+]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'home'
 INTERNAL_IPS = ['127.0.0.1']
@@ -173,9 +181,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
-django_heroku.settings(locals()) # ! decommenter pour les tests
+# django_heroku.settings(locals()) # ! decommenter pour les tests
 
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# ! decommenter pour les tests 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'# ! decommenter pour les tests 
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

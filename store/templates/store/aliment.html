@@ -1,7 +1,9 @@
 {% extends "base2.html" %}
+{% load i18n %}
 {% load static %}
 {% block title %}
-<title>Mes produits favoris </title>
+<title>{% trans 'Mes produits favoris' %} </title>
+
 {% endblock title %}
 {% block content %}
 
@@ -10,7 +12,7 @@
 
   <section class="jumbotron text-center">
     <div class="container">
-      <h2>Produits Favoris de {{user.username}}</h2>
+      <h2>{% trans 'Produits Favoris de' %} {{user.username}}</h2>
     </div>
   </section>
 
@@ -31,7 +33,7 @@
                   <a href="{% url 'detail_favori' pk=favorite.pk %}"><button type="button"
                       class="btn btn-sm btn-outline-primary">Details</button></a>
                 </div>
-                <h3>Grade: {{favorite.product_favorite.grade|upper }}</h3>
+                <h3>{% trans 'Grade' %}: {{favorite.product_favorite.grade|upper }}</h3>
               </div>
             </div>
           </div>

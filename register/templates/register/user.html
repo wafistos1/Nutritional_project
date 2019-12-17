@@ -1,34 +1,35 @@
 {% extends "base2.html" %}
+{% load i18n %}
 {% load crispy_forms_tags %}
 {% block content %}
 
 {% if user.is_authenticated %}
 <div class="row justify-content-center">
     <h3>
-        Vous etes deja connecte
+        {% trans 'Déjà connecte' %}
     </h3>
 </div>
 {% else %}
-    <div class="row justify-content-center">
-            <form method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">S'inscrire</legend>
-                        {{ user_form|crispy}}
-                        {{ profile_form|crispy }}
-                    </fieldset>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">S'inscrire</button>
-                    </div>
-                    
-                </form>
-            <div class="border-top pt-3" >
-                <small class="text-muted">
-                    Deja inscris ? <a class="ml-2" href="{% url 'login' %}">Se connecter</a>
-                </small>
-            </div>
-   
+<div class="row justify-content-center">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">{% trans "S'inscrire" %}</legend>
+            {{ user_form|crispy}}
+            {{ profile_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">{% trans "S'inscrire" %}</button>
+        </div>
+
+    </form>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            {% trans "Deja inscris ?" %} <a class="ml-2" href="{% url 'login' %}">{% trans "Se connecter" %}</a>
+        </small>
     </div>
-    
+
+</div>
+
 {% endif %}
 {% endblock %}
