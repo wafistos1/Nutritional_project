@@ -43,7 +43,7 @@ Pour lancer le programme pour la premier fois:
 Les programmes/logiciels/ressources utilisé pour développer le projet
 
 
-* [Django](https://www.djangoproject.com)- Recherche une adresse.
+* [Django](https://www.djangoproject.com)- FrameWork.
 * [Visual-Studio-code](https://code.visualstudio.com) - Editeur de textes.
 * [Heroku](https://www.heroku.com) - Hebergement du programme.
 
