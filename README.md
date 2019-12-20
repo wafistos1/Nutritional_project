@@ -4,7 +4,7 @@
 
 
 
-## Ce programme est un site web qui va aide l'utilisateur a trouve un produit  substitut de meilleur qualite nutritionelle .
+## Ce programme est un site web qui va aide l'utilisateur a trouvé un produit substitut de meilleure qualité nutritionnelle .
 
 ## Pour commencer
 - Ce programme se compose des éléments suivants
@@ -27,15 +27,14 @@ Pour lancer le programme pour la premier fois:
 
 ### Partie Interface(interaction avec l'utilisateur)
 
-- Le programme aide l'utilisateur a trouve un produit substitut de meilleur qualite nutritionnelle, on lance la recherche d'un produit 
-    et le programme nous affiche le produit avec d'autre produit substitut qui ont un meilleur grade nutritionnel.    
+- Le programme aide l'utilisateur a trouvé un produit substitut de meilleure qualité nutritionnelle, on lance la recherche d'un produit et le programme nous affiche le produit avec d'autres produit substitut qui a un meilleur grade nutritionnel.    
 
 ### Partie recherchent de produit.
 
-- Le programme affiche les resultat de la recherche en plusieur pages, l'utilisateur trouve le produit substitut qui veut et click sur le bouton sauvegarde du produit. 
+- Le programme affiche les résultats de la recherche en plusieurs pages, l'utilisateur trouve le produit substitut qui veut et click sur le bouton sauvegarde du produit. 
 
 ### Les  sauvegarde produit.
-- Le programme sauvegarde le produit dans les favoris on appyant sur le bouton, on peut a tout moment consulter les favoris avec le lien en haut de la page `Aliment` 
+- Le programme sauvegarde le produit dans les favoris ont appuyant sur le bouton, on peut à tout moment consulter les favoris avec le lien en haut de la page `Aliment` 
 
 
 ## Fabriqué avec
