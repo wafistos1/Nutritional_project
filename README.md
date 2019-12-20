@@ -1,1 +1,60 @@
-# Projet8
+
+#
+# Projet8 "Créez une plateforme pour amateurs de Nutella"
+
+
+
+## Ce programme est un site web qui va aide l'utilisateur a trouve un produit  substitut de meilleur qualite nutritionelle .
+
+## Pour commencer
+- Ce programme se compose des éléments suivants
+
+### Pré-requis
+
+Ce qu'il est requis pour commencer:
+
+- Installer Python3. 
+- Installer les dependances avec la commande `pip install -r requirements.txt`.
+
+## Démarrage
+
+Pour lancer le programme pour la premier fois:
+ 
+- Taper dans un terminal `python3 manage.py migrate` 
+- Taper dans un terminal `python3 manage.py load` pour implementer la BD.
+- Taper dans un terminal `python3 manage.py runserver` 
+- Il faut que l'utilisateur s'enregistre pour qu'il puisse utiliser le programme.
+
+### Partie Interface(interaction avec l'utilisateur)
+
+- Le programme aide l'utilisateur a trouve un produit substitut de meilleur qualite nutritionnelle, on lance la recherche d'un produit 
+    et le programme nous affiche le produit avec d'autre produit substitut qui ont un meilleur grade nutritionnel.    
+
+### Partie recherchent de produit.
+
+- Le programme affiche les resultat de la recherche en plusieur pages, l'utilisateur trouve le produit substitut qui veut et click sur le bouton sauvegarde du produit. 
+
+### Les  sauvegarde produit.
+- Le programme sauvegarde le produit dans les favoris on appyant sur le bouton, on peut a tout moment consulter les favoris avec le lien en haut de la page `Aliment` 
+
+
+## Fabriqué avec
+
+Les programmes/logiciels/ressources utilisé pour développer le projet
+
+
+* [Django](https://www.djangoproject.com)- Recherche une adresse.
+* [Visual-Studio-code](https://code.visualstudio.com) - Editeur de textes.
+* [Heroku](https://www.heroku.com) - Hebergement du programme.
+
+
+
+## Auteurs
+auteur(s) du projet 
+* **Ouafi MAMERI** _WAFI_ [mameri.wafi@gmail.com](https://github.com/wafistos1/Projet8Bis)
+
+
+_(https://github.com/wafistos1/Projet8Bis ``/GitHub``)_
+_(https://trello.com/b/yZ5EgIeq/pure-beurre ``/Trello``)_
+_(https://projet8openclassrooms.herokuapp.com ``/Heroku``)_
+
