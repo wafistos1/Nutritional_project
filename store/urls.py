@@ -24,4 +24,5 @@ urlpatterns = [
     path('aliment/<int:fav>/<int:prod>/', views.save_aliment, name='save_aliment'),
     path('detail_favori/<int:pk>', views.detail_favori, name='detail_favori'),
     path('aliment_delete/<int:pk>', views.aliment_delete, name='aliment_delete'),
+    path('mentions_legales', views.mention, name='mention'),
 ]

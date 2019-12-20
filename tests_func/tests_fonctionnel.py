@@ -10,7 +10,7 @@ import time
 
 class MySeleniumTests(LiveServerTestCase):
     def setUp(self):
-        self.selenium = WebDriver()
+        self.selenium = WebDriver(executable_path='C:/geckodriver.exe')
         self.selenium.implicitly_wait(10)        
         self.user = User.objects.create_user('wafistos4', 'wafi@gmail.com', 'djamel2013')
         self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')

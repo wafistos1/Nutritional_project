@@ -95,3 +95,8 @@ def aliment_delete(request, pk):
                 _("On ne peut pas supprimer ces produits car vous n'êtes pas le propriétaire  ")
                 )
     return render(request, 'store/aliment_delete.html')
+
+def mention(request):
+    """Mentions legales
+    """
+    return render(request, 'store/mentions.html')
