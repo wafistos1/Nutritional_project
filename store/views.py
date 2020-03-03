@@ -1,5 +1,7 @@
 """Module views the application store for displaying templates
 """
+import json
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.messages import SUCCESS, ERROR
@@ -7,6 +9,7 @@ from django.utils.translation import ugettext as _
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Favorite
+from django.views.decorators.csrf import csrf_exempt
 
 # Global variable
 query = None
@@ -22,29 +25,30 @@ def home(request):
 def resultats(request, page=1):
     """Displays the results of the search for substitute products
     """
+
     global query
     if request.GET.get('q') is not None:
         query = request.GET.get('q').capitalize()
-    try:
-        data = Product.objects.filter(name__contains=query)
-        best_product = Product.objects.filter(
-            categorie=data[0].categorie
-            ).filter(grade__lt=data[0].grade).order_by("grade")
-        if not best_product:
-            text = _('Vous avez choisi le meilleur produit nutitionnelle')
-            return render(
-                request, 'store/resultats.html',
-                {'data': data[0], 'best_product': best_product, 'text': text}
-                )
-        paginator = Paginator(best_product, 15)
-        best_product = paginator.page(page)
-    except IndexError:
-        send_text = _("Essayez un autre produit.")
-        produit = query
-        return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-    except EmptyPage:
-        paginator = paginator.page(paginator.num_pages)
-    return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
+        try:
+            data = Product.objects.filter(name__contains=query)
+            best_product = Product.objects.filter(
+                categorie=data[0].categorie
+                ).filter(grade__lt=data[0].grade).order_by("grade")
+            if not best_product:
+                text = _('Vous avez choisi le meilleur produit nutitionnelle')
+                return render(
+                    request, 'store/resultats.html',
+                    {'data': data[0], 'best_product': best_product, 'text': text}
+                    )
+            paginator = Paginator(best_product, 15)
+            best_product = paginator.page(page)
+        except IndexError:
+            send_text = _("Essayez un autre produit.")
+            produit = query
+            return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
+        except EmptyPage:
+            paginator = paginator.page(paginator.num_pages)
+        return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
 
 
 @login_required(login_url='login')
@@ -100,3 +104,27 @@ def mention(request):
     """Mentions legales
     """
     return render(request, 'store/mentions.html')
+
+@csrf_exempt
+def rating(request):
+    """Displays the results of the search for substitute products
+    """
+    if request.method == 'POST':
+        
+        query = request.POST
+        print(query['rate'])
+        print(query['id'])
+
+        product = Product.objects.get(pk=query['id'])
+        
+
+        product.rate_product = query['rate']
+        print(product.rate_product)
+        product.save()
+        
+
+        context = {
+            'data': query
+        }
+        dump = json.dumps(context)
+        return HttpResponse(dump)

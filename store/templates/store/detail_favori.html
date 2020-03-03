@@ -38,7 +38,21 @@
               <div class="btn-group">
                     <a href="{% url 'aliment_delete' pk=favorite.pk %}" ><button type="button" class="btn btn-sm btn-outline-primary">Supprimer</button></a>
               </div>
+
+              
               <h3>Grade: {{favorite.product_favorite.grade|upper }}</h3>
+            </div>
+            <div class="rating"   >
+              <!--
+    --><a href="#5" class="rating-rate" data-rate="5"  value="{{ favorite.product_favorite.id }}" title="Donner 5 étoiles">☆</a>
+              <!--
+    --><a href="#4"  class="rating-rate" data-rate="4" value="{{ favorite.product_favorite.id }} " title="Donner 4 étoiles">☆</a>
+              <!--
+    --><a href="#3" class="rating-rate" data-rate="3" value="{{ favorite.product_favorite.id }}" title="Donner 3 étoiles">☆</a>
+              <!--
+    --><a href="#2" class="rating-rate" data-rate="2" value="{{ favorite.product_favorite.id }}" title="Donner 2 étoiles">☆</a>
+              <!--
+    --><a href="#1"  class="rating-rate" data-rate="1"  value="{{ favorite.product_favorite.id }}" title="Donner 1 étoile">☆</a>
             </div>
           </div>
         </div>

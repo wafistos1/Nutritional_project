@@ -4,21 +4,14 @@
 {% block title %}
 <title>Résultat de la recherche</title>
 {% endblock title %}
+
 {% block content %}
 
-<section class="page-section bg-dark text-orange">
 
+    <br />
+    <section>
 
-  <main role="main">
-
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
-        <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
-
-      </div>
     </section>
-
     <div class="album py-5 bg-light">
       <div class="container">
 
@@ -26,7 +19,7 @@
 
           <div class="col-md-4">
             <div class="card mb-4 shadow-sm">
-              <img class="img-responsive" width="80%" height="200" src="{{ data.images }}"
+              <img class="img-responsive" width="100%" height="200" src="{{ data.images }}"
                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
               <div class="card-body">
                 <h2>{{ data.name }}</p>
@@ -71,43 +64,121 @@
   <section class="jumbotron text-center">
     <div class="container">
       <div class="col text-center">
-        <h1 class="text-uppercase text-white font-weight-bold">{% trans 'Produits de meilleur qualité nutritionnelle' %}</h1>
+        <h1 class="text-uppercase text-white font-weight-bold">{% trans 'Produits de meilleur qualité nutritionnelle' %}
+        </h1>
         <div class="section_title">
           <h2>{% trans 'Vous pouvez remplacer cet aliment par' %}</h2>
         </div>
         <div class="section_subtitle">{% trans 'Produits de meilleur qualité nutritionnelle' %}</div>
       </div>
-
-        
-
     </div>
-    
+<!-- ***************************************************************** -->
+<section class="page-section bg-white text-orange">
+
+
+  <main role="main">
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
+        <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
+
+      </div>
+    </section>
+    <section class="site_filter">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-sm-2 col-2">
+                  <div class="form-group">
+                      <label for="grade">Grade</label>
+                      <select class="form-control" id="grade" >
+                        <disabled="disabled" value = "none">Choose option</option>
+                        <option value='A'>A</option>
+                        <option value='B'>B</option>
+                        <option value='C'>C</option>
+                        <option value='D'>D</option>
+                        <option value='E'>E</option>
+                        
+                          
+                      </select>
+                  </div>
+              </div>
+              <div class="col-sm-3 col-2">
+                  <div class="form-group">
+                      <label for="Date">Date</label>
+                      <select class="form-control" id="date" >
+                      </select>
+                  </div>
+              </div>
+              <div class="col-sm-2 col-2">
+                  <div class="form-group">
+                      <label for="Note">Les + notes</label>
+                      <select class="form-control" id="gout" 
+                          >
+                          <option value='all' selected>All Provinces</option>
+                      </select>
+                  </div>
+              </div>
+
+
+              </div>
+
+          </div>
+      </div>
+    </section>
+
+<!-- ************************************************************** -->
+
   </section>
   {% include "pagination.html" with liste=best_product view="resultats" %}
-  <div class="album py-5 bg-light">
+  <div class="album py-10 bg-light">
     <div class="container">
-        <div class="section_title">
-        
-            <h2>{{ text }}</h2>
-            
-          </div>
-      <div class="row">
+      <div class="row align-items-center">
         {% for value in best_product%}
         <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
+          <div class="card mb-2 shadow-sm">
             <img class="img-responsive" width="80%" height="225" src="{{ value.images }}"
               preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
             <div class="card-body">
               <h5>{{value.name|truncatewords:3 }}</h5>
             </div>
-            <div class="card-body">
+            <div class="col align-items-center" name="Sauvegarder">
               <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
+                <div class="col-6 col-md-4">
                   <a href="{% url 'save_aliment' fav=value.pk prod=data.pk  %}"><button type="button"
                       class="btn btn-sm btn-outline-primary">Sauvegarder</button></a>
                 </div>
-                <small class="text-muted">{% trans 'Grade' %}: {{value.grade|upper }}</small>
+                <div class="row">
+                  <div class="col align-self-center">
+                    
+                  </div>
+                  <div class="col align-self-end">
+                {% if value.grade == 'a' %}
+                {{ value.grade }}
+                <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-a.svg'%}"
+                   focusable="false" role="img" >
+                {%  elif value.grade == 'b' %}
+                <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-b.svg'%}"
+                   focusable="false" role="img" >
+
+                {%  elif value.grade == 'c' %}
+                <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-c.svg'%}"
+                  preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+                {%   else%}
+                <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-e.svg'%}"
+                  preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+                {% endif %}
+
+
+                
+
+                </div>
+
               </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -117,7 +188,7 @@
   </div>
 
 </main>
-<script src="{% static 'js/script.js' %}"></script>
+
 {% include "pagination.html" with liste=best_product view="resultats" %}
 </section>
 

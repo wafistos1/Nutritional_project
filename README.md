@@ -44,7 +44,6 @@ Les programmes/logiciels/ressources utilisé pour développer le projet
 
 * [Django](https://www.djangoproject.com)- FrameWork.
 * [Visual-Studio-code](https://code.visualstudio.com) - Editeur de textes.
-* [Heroku](https://www.heroku.com) - Hebergement du programme.
 
 
 
@@ -55,5 +54,4 @@ auteur(s) du projet
 
 _(https://github.com/wafistos1/Projet8Bis ``/GitHub``)_
 _(https://trello.com/b/yZ5EgIeq/pure-beurre ``/Trello``)_
-_(https://projet8openclassrooms.herokuapp.com ``/Heroku``)_
 
