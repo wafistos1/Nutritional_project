@@ -24,6 +24,7 @@ class Product(models.Model):
     url = models.URLField(max_length=500, default='None')
     detail_nutrition_url = models.URLField(max_length=500, default='None')
     
+    
 
     def __str__(self):
         return self.name
@@ -45,15 +46,14 @@ class Favorite(models.Model):
         return f"produit: {self.product_choice.name} , product_substitute:{self.product_favorite.name}"
 
 
-class rating(models.Model):
-    RATE_CHOICES = (
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5),
-    )
-    rating = models.IntegerField(max_length=2, choices=RATE_CHOICES, null=True)
+class Rating(models.Model):
+
+    rating = models.IntegerField(  null=True)
     product_rating = models.ForeignKey(Product, on_delete=models.CASCADE)
     user_rating = models.ForeignKey(User, on_delete=models.CASCADE)
     user_voting = models.BooleanField(default=False)
+    class Meta:
+        db_table = 'Rating'
+        constraints = [
+            models.UniqueConstraint(fields=['user_rating', 'product_rating'], name='reservation_unique')
+        ]

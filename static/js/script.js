@@ -1,9 +1,3 @@
-
-	
-	
-	
-	
-  
 	  $newItemForm = $('.rating-rate');
 	  $newItemForm.on('click', function(e) {
 		e.preventDefault();

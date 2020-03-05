@@ -9749,3 +9749,6 @@ header.masthead h1 {
   color: orange;
   cursor: pointer;
 }
+.checked {
+  color: orange;
+}
