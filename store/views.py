@@ -10,6 +10,8 @@ from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Favorite, Rating
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Avg
+from django.core import exceptions
 
 # Global variable
 query = None
@@ -30,25 +32,26 @@ def resultats(request, page=1):
     if request.GET.get('q') is not None:
         query = request.GET.get('q').capitalize()
     try:
-        data = Product.objects.filter(name__contains=query)
+        data = Product.objects.filter(name__contains=query).first()
         best_product = Product.objects.filter(
-            categorie=data[0].categorie
-            ).filter(grade__lt=data[0].grade).order_by("grade")
+            categorie=data.categorie
+            ).filter(grade__lt=data.grade).order_by("grade")
         if not best_product:
             text = _('Vous avez choisi le meilleur produit nutitionnelle')
             return render(
                 request, 'store/resultats.html',
-                {'data': data[0], 'best_product': best_product, 'text': text}
+                {'data': data, 'best_product': best_product, 'text': text}
                 )
         paginator = Paginator(best_product, 15)
         best_product = paginator.page(page)
-    except IndexError:
+    except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
         send_text = _("Essayez un autre produit.")
         produit = query
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
     except EmptyPage:
         paginator = paginator.page(paginator.num_pages)
-    return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
+    return render(request, 'store/resultats.html', {'data': data, 'best_product': best_product})
+
 
 
 @login_required(login_url='login')
@@ -122,48 +125,69 @@ def rating(request):
         product_id = query['id']
         product = Product.objects.get(pk=product_id)
         user_rating = request.user
-        rating_model = Rating.objects.get_or_create(
+
+        avg_rating = Rating.objects.filter(product_rating__id=product_id).aggregate(Avg('rating'))# moyenne du produit 
+        print(avg_rating)
+        try:
+            rating_model = Rating.objects.get_or_create(
             rating=rating,
             product_rating=product,
             user_rating=user_rating,
             user_voting=True
             )
-        # Change types into string and int for sending in HttpResponse.
-        rating = int(rating_model[0].rating)
-        product_rating = str(rating_model[0].product_rating)
-        user_rating = str(rating_model[0].user_rating)
-        user_voting =  str(rating_model[0].user_voting)
-        context = {
-            'rating': rating,
-            'product_rating': product_rating,
-            'user_rating': user_rating,
-            'user_voting': user_voting,
-            }
-        
-        dump = json.dumps(context)
-        return HttpResponse(dump, content_type='application/json')
+            # Change types into string and int for sending in HttpResponse.
+            rating = int(rating_model[0].rating)
+            product_rating = str(rating_model[0].product_rating)
+            user_rating = str(rating_model[0].user_rating)
+            user_voting =  str(rating_model[0].user_voting)
+            context = {
+                'rating': avg_rating,
+                'product_rating': product_rating,
+                'user_rating': user_rating,
+                'user_voting': user_voting,
+                }
+            
+            dump = json.dumps(context)
+            return HttpResponse(dump, content_type='application/json')
 
-        # try:
-        #     rating_model = Rating.objects.get_or_create(
-        #     rating=rating,
-        #     product_rating=product,
-        #     user_rating=user_rating,
-        #     user_voting=True
-        #     )
-        #     context = {
-        #     'data': rating_model[0]
-        #     }
-        
-        #     dump = json.dumps(context)
-        #     return HttpResponse(dump, content_type='application/json')
-        # except:
-        #     print('toto')
+
+        except:
+            print('toto')
             
 
-            # context = {
-            #     'data': " Une erreure c'est produite"
-            # }
-            # dump = json.dumps(context)
-            # print(type(context))
-            # print(type(dump))
-            # return HttpResponse(dump, content_type='application/json')
+            context = {
+                'data': " Une erreure c'est produite"
+            }
+            dump = json.dumps(context)
+            return HttpResponse(dump, content_type='application/json')
+
+
+@login_required(login_url='login')
+def resultat(request, page=1):
+    """Displays the results of the search for substitute products
+    """
+    if request.method == 'GET':
+        query = request.GET['value']
+        print(query)
+    try:
+        data = Product.objects.filter(name__contains=query).first()
+        name = data.name
+        grade = data.grade
+        best_product = Product.objects.filter(
+            categorie=data.categorie
+            ).filter(grade__exact=data.grade)
+        paginator = Paginator(best_product, 15)
+        best_product = paginator.page(page)
+    except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
+        print('coucou')
+        # send_text = _("Essayez un autre produit.")
+        # produit = query
+        # return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
+    except EmptyPage:
+        paginator = paginator.page(paginator.num_pages)
+    context = {
+        'data.name': name, 
+        'data.grade': grade,
+        }
+    dump = json.dumps(context)
+    return HttpResponse(dump, content_type='application/json')

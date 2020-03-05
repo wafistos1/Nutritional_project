@@ -41,12 +41,13 @@ class Favorite(models.Model):
         )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
-
     def __str__(self):
         return f"produit: {self.product_choice.name} , product_substitute:{self.product_favorite.name}"
 
 
 class Rating(models.Model):
+    """Models of the products rating system 
+    """
 
     rating = models.IntegerField(  null=True)
     product_rating = models.ForeignKey(Product, on_delete=models.CASCADE)

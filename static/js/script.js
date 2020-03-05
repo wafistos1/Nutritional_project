@@ -16,7 +16,7 @@
 				
 			},
 			success: function(data) {
-				alert(data);
+				alert(data['data']);
 			},
 			error: function(data) {
 				console.log("ajax call failed!");
@@ -24,4 +24,27 @@
 		  });
 	  });
 
+
+
+	  $fade = $('.form-control');
+	  $fade.on('click', function(e) {
+		e.preventDefault();
+		var  val = $('#grade option:selected' ).text()
+		$.ajax({
+			url: "/resultat",
+			type: 'get',
+			
+			data: {
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+				value:val,
+
+			},
+			success: function(data) {
+				alert(data['data.name'])
+			},
+			error: function(data) {
+				console.log("ajax call failed!");
+			}
+		  });
+	  });
 
