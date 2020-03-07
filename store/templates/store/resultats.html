@@ -56,7 +56,7 @@
       </div>
     </div>
 
-  </main>
+  
 </section>
 
 <main role="main">
@@ -73,7 +73,7 @@
       </div>
     </div>
 <!-- ***************************************************************** -->
-<section class="page-section bg-white text-orange">
+<section class="page-section bg-white text-orange" id="add-element">
 
 
   <main role="main">
@@ -91,13 +91,14 @@
               <div class="col-sm-2 col-2">
                   <div class="form-group">
                       <label for="grade">Grade</label>
-                      <select class="form-control" id="grade" name='grade' >
+                      <select  id="grade" name='grade' >
                         
-                        <option value='A'>A</option>
-                        <option value='B'>B</option>
-                        <option value='C'>C</option>
-                        <option value='D'>D</option>
-                        <option value='E'>E</option>
+                        <option >All</option>
+                        <option class="form-control" value='A'>A</option>
+                        <option class="form-control" value='B'>B</option>
+                        <option class="form-control"value='C'>C</option>
+                        <option class="form-control" value='D'>D</option>
+                        <option class="form-control" value='E'>E</option>
                         
                           
                       </select>
@@ -129,11 +130,13 @@
 
 <!-- ************************************************************** -->
 
-  </section>
+  </section >
+  <div id="boucle-elements">
   {% include "pagination.html" with liste=best_product view="resultats" %}
   <div class="album py-10 bg-light">
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row align-items-center" id="row-after" >
+      <div class="row align-items-center" id="row-remove" >
         {% for value in best_product%}
         <div class="col-md-4">
           <div class="card mb-2 shadow-sm">
@@ -186,11 +189,16 @@
         {% endfor %}
       </div>
     </div>
+    </div>
   </div>
-
+  {% include "pagination.html" with liste=best_product view="resultats" %}
+</div>
 </main>
 
-{% include "pagination.html" with liste=best_product view="resultats" %}
+
+
 </section>
 
 {% endblock %}
+
+</div>

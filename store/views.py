@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from store.models import Product, Favorite, Rating
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Avg
-from django.core import exceptions
+from django.core import exceptions, serializers
 
 # Global variable
 query = None
@@ -44,7 +44,7 @@ def resultats(request, page=1):
                 )
         paginator = Paginator(best_product, 15)
         best_product = paginator.page(page)
-    except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
+    except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
         send_text = _("Essayez un autre produit.")
         produit = query
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
@@ -163,31 +163,29 @@ def rating(request):
 
 
 @login_required(login_url='login')
-def resultat(request, page=1):
+def resultat(request):
     """Displays the results of the search for substitute products
     """
     if request.method == 'GET':
-        query = request.GET['value']
-        print(query)
-    try:
-        data = Product.objects.filter(name__contains=query).first()
-        name = data.name
-        grade = data.grade
-        best_product = Product.objects.filter(
-            categorie=data.categorie
-            ).filter(grade__exact=data.grade)
-        paginator = Paginator(best_product, 15)
-        best_product = paginator.page(page)
-    except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
-        print('coucou')
-        # send_text = _("Essayez un autre produit.")
-        # produit = query
-        # return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-    except EmptyPage:
-        paginator = paginator.page(paginator.num_pages)
-    context = {
-        'data.name': name, 
-        'data.grade': grade,
-        }
-    dump = json.dumps(context)
-    return HttpResponse(dump, content_type='application/json')
+        grade = request.GET['value']
+        grade = grade.lower()
+        try:
+            data = Product.objects.filter(name__contains=query).first()
+            print(data.categorie.pk)
+            best_product = Product.objects.filter(
+                categorie=data.categorie.pk
+                ).filter(grade__exact=grade)
+        
+        
+        except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
+            print('coucou')
+            # send_text = _("Essayez un autre produit.")
+            # produit = query
+            # return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
+        best_product = json.dumps(best_product)
+        data = json.dumps(data)
+        context = [best_product ,  data]
+        context = serializers.serialize('json', context)
+
+        print(context)
+        return JsonResponse(context, content_type='application/json')
