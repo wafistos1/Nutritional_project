@@ -12,6 +12,7 @@ from store.models import Product, Favorite, Rating
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Avg
 from django.core import exceptions, serializers
+from .serializers import productSerializer
 
 # Global variable
 query = None
@@ -182,10 +183,13 @@ def resultat(request):
             # send_text = _("Essayez un autre produit.")
             # produit = query
             # return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-        # best_product = json.dumps(best_product)
-        # data = json.dumps(data)
-        # context = [best_product ,  data]
-        best_product = serializers.serialize('json', best_product)
-
-        print(best_product)
-        return HttpResponse(best_product, content_type='application/json')
+        best_serializer = productSerializer(best_product, many=True)
+        data_serializer = productSerializer([data], many=True)
+                
+        context = {
+            'best': best_serializer.data, 
+            'data': data_serializer.data, 
+        }
+        context = json.dumps(context)
+        print(context)    
+        return HttpResponse(context, content_type='application/json')
