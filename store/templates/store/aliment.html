@@ -54,12 +54,56 @@
                   {% endif %}
 
                   <div class="rating"   >
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
-                  <span class="fa fa-star checked"></span>
+                    {% for rate in rating %}
+                        {% if favorite.product_favorite.pk == rate.product_rating.pk%}
+                              {% if rate.rating == 1 %}
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star checked"></span>
+                              {% elif rate.rating == 2 %}
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              {% elif rate.rating == 3 %}
+                          
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              {% elif rate.rating == 4 %}
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              
+                              {% elif rate.rating == 5 %}
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              {% else %}
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>                              
+                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star"></span>
 
+                              {% endif%}
+                          {% endif %}
+                    {% empty %}
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>                              
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    {% endfor %}
 
                   </div>
                 </div>

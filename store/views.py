@@ -61,7 +61,8 @@ def aliment(request):
     """
     favorite = Favorite.objects.filter(
         user=request.user).select_related('product_choice', 'product_favorite', 'user')
-        
+    rating = Rating.objects.all()
+    
     return render(request, 'store/aliment.html', {'favorites': favorite, 'rating': rating})
 
 
@@ -85,6 +86,8 @@ def detail_favori(request, pk):
     Views who display details of the favorite product
     """
     favorite = Favorite.objects.filter(pk=pk, user=request.user)
+    print(favorite[0].product_favorite.pk)
+
     return render(request, 'store/detail_favori.html', {'favorite': favorite[0]})
 
 

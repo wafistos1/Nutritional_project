@@ -26,7 +26,7 @@ $newItemForm.on('click', function (e) {
 
 
 
-$fade = $('.form-control');
+$fade = $('.form-group');
 $fade.on('click', function (e) {
 	e.preventDefault();
 	var val = $('#grade option:selected').text()
