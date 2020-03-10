@@ -36,8 +36,7 @@
                 </div>
                 <div>
                 {% if favorite.product_favorite.grade == 'a' %}
-                  {{ favorite.product_favorite.grade }}
-                  <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-a.svg'%}"
+                  <img class="img-responsive" width="100%" height="100" src=" static/img/nutriscore-a.svg"
                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
                   {%  elif favorite.product_favorite.grade == 'b' %}
                   <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-b.svg'%}"
@@ -46,7 +45,11 @@
                   {%  elif favorite.product_favorite.grade == 'c' %}
                   <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-c.svg'%}"
                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-      
+                   
+                  {%  elif favorite.product_favorite.grade == 'd' %}
+                    <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-d.svg'%}"
+                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+        
                   {%   else%}
                   <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-e.svg'%}"
                     preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
@@ -82,27 +85,18 @@
                               <span class="fa fa-star checked"></span>
                               <span class="fa fa-star checked"></span>
                               
-                              {% elif rate.rating == 5 %}
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
                               {% else %}
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>                              
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              <span class="fa fa-star checked"></span>
+                              
+
 
                               {% endif%}
+
                           {% endif %}
-                    {% empty %}
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>                              
-                    <span class="fa fa-star"></span>
-                    <span class="fa fa-star"></span>
                     {% endfor %}
 
                   </div>

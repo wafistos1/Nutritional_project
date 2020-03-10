@@ -62,6 +62,7 @@ def aliment(request):
     favorite = Favorite.objects.filter(
         user=request.user).select_related('product_choice', 'product_favorite', 'user')
     rating = Rating.objects.all()
+
     
     return render(request, 'store/aliment.html', {'favorites': favorite, 'rating': rating})
 
@@ -131,7 +132,6 @@ def rating(request):
         user_rating = request.user
 
         avg_rating = Rating.objects.filter(product_rating__id=product_id).aggregate(Avg('rating'))# moyenne du produit 
-        print(avg_rating)
         try:
             rating_model = Rating.objects.get_or_create(
             rating=rating,
@@ -179,7 +179,8 @@ def resultat(request):
             best_product = Product.objects.filter(
                 categorie=data.categorie.pk
                 ).filter(grade__exact=grade)
-        
+            item = len(best_product)
+            print(item)
         
         except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
             print('coucou')
@@ -191,8 +192,9 @@ def resultat(request):
                 
         context = {
             'best': best_serializer.data, 
-            'data': data_serializer.data, 
+            'data': data_serializer.data,
+            'item': item
         }
         context = json.dumps(context)
-        print(context)    
+  
         return HttpResponse(context, content_type='application/json')

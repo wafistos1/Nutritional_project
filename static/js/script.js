@@ -42,16 +42,41 @@ $fade.on('click', function (e) {
 
 		},
 		success: function (data) {
-	
-			let pk_data = data['data'][0]['id']
+			$('#row-after').children().remove();
+			let pk_data = data['data'][0]['id'];
+			let item_count = data['item'];
+			let item_page = 15;
+			var totalPages = item_count / item_page ;
+			$('#add-element .pagination' ).remove();
+			$('#add-element').append('\
+			<nav aria-label="Page navigation example">\
+			<ul class="pagination">\
+				<li class="page-item">\
+				<a class="page-link" href="javascript:void(0)" aria-label="Previous">\
+					<span aria-hidden="true">&laquo;</span>\
+					<span class="sr-only">Previous</span>\
+				</a>\
+				</li>\
+				<li class="page-item"><a class="page-link" href="javascript:void(0)">1</a></li>\
+				<a class="page-link" href="javascript:void(0)" aria-label="Next">\
+					<span aria-hidden="true">&raquo;</span>\
+					<span class="sr-only">Next</span>\
+				</a>\
+				</li>\
+			</ul>\
+			</nav>');
+
+
+
+
+
+
 		$.each( data['best'], function( i, obj ) {
 			
 			let name = obj['name']
 			let images = obj['images']
 			let grade = obj['grade']
 			let pk_best = obj['id']
-			
-
 			
 			$('#row-after').append('\
 			<div class="col-md-4">\
@@ -75,14 +100,15 @@ $fade.on('click', function (e) {
 			  </div>\
 			</div>\
 		  </div>');
-		
-			
+		  
+		  
 		  });
-
+		  
 		},
 		error: function (data) {
 			alert("ajax call failed!");
 		}
 	});
 });
+
 
