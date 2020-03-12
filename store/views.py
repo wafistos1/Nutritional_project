@@ -36,14 +36,29 @@ def resultats(request, page=1):
     global data
     
     best_product = []
+    filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
+    filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
     if request.GET.get('q') is not None:
+
         query = request.GET.get('q').capitalize()
+
         try:
             data = Product.objects.filter(name__contains=query).first()
             best_product = Product.objects.filter(
                 categorie=data.categorie
                 ).filter(grade__lt=data.grade).order_by("grade")
+            filter_grade = ProductFilter(request.GET, queryset=best_product)
             print(best_product)
+            context = {
+                'data': data, 
+                'best_product': filter_grade,
+                'filter': filter_grade,
+                'filter1': filter_rating,
+                'rating': filter_rating,
+                }
+            print(filter_grade)
+            return render(request, 'store/resultats.html', context )
+    
             if  not best_product:
                 text = _('Vous avez choisi le meilleur produit nutitionnelle')
                 return render(
