@@ -15,9 +15,16 @@ class Categorie(models.Model):
 class Product(models.Model):
     """ Class
     """
-
+    GRADE_CHOICE = [
+        ('a','a'),
+        ('b','b'),
+        ('c','c'),
+        ('d','d'),
+        ('e','e'),
+        ('unknown','unknown'),   
+    ]
     name = models.CharField(_('Nom produit'), max_length=500, unique=True)
-    grade = models.CharField(max_length=40)
+    grade = models.CharField(max_length=40, choices=GRADE_CHOICE)
     images = models.URLField(max_length=500)
     categorie = models.ForeignKey(Categorie, on_delete=models.CASCADE)
     detail_igredient = models.TextField(default='None')
@@ -48,8 +55,15 @@ class Favorite(models.Model):
 class Rating(models.Model):
     """Models of the products rating system 
     """
-
-    rating = models.IntegerField(  null=True)
+    RATE_CHOICE = [
+        ('1','1'),
+        ('2','2'),
+        ('3','3'),
+        ('4','4'),
+        ('5','5'),
+        ('0','0'),   
+    ]
+    rating = models.PositiveIntegerField(null=True, choices=RATE_CHOICE)
     product_rating = models.ForeignKey(Product, on_delete=models.CASCADE)
     user_rating = models.ForeignKey(User, on_delete=models.CASCADE)
     user_voting = models.BooleanField(default=False)
