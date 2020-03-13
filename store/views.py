@@ -2,7 +2,8 @@
 """
 import json
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.urls import NoReverseMatch
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages import SUCCESS, ERROR
 from django.utils.translation import ugettext as _
@@ -59,7 +60,7 @@ def resultats(request, page=1):
             print(filter_grade)
             return render(request, 'store/resultats.html', context )
     
-            if  not best_product:
+            if  best_product is None:
                 text = _('Vous avez choisi le meilleur produit nutitionnelle')
                 return render(
                     request, 'store/resultats.html',
@@ -73,6 +74,8 @@ def resultats(request, page=1):
             return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
         except EmptyPage:
             paginator = paginator.page(paginator.num_pages)
+        except NoReverseMatch:
+            redirect('store/home.html')
     
     grade_contains_query = request.GET.get('grade')
     categorie_contains_query = request.GET.get('categorie')
@@ -116,17 +119,7 @@ def resultats(request, page=1):
         filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
     else:
         print('choix 3')
-    # best_product = Product.objects.filter(Q(grade=grade_contains_query) & Q(categorie=categorie_contains_query) )
-    # filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
-    # filter_note = RatingFilter(request.GET, )
-    # filter_note = RatingFilter(request.GET, queryset=Rating.objects.all())
-
-
-
-    # if rating_contains_query != '' and  query is not None:
-    #     best = Product.objects.filter(grade=grade_contains_query, categorie=categorie_contains_query)
-    # best_product = Rating.objects.filter(product_rating__in=best, rating=rating_contains_query)
-    
+ 
 
     context = {
         'data': data, 

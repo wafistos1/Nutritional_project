@@ -9752,3 +9752,17 @@ header.masthead h1 {
 .checked {
   color: orange;
 }
+
+form #form-filter{
+  display: inline-block;
+  color: #f4623a;
+  font-size: 1.3em;
+
+  margin-right: 40px;
+
+}
+
+form #form-filter input{
+  color: #f4623a;
+
+}
