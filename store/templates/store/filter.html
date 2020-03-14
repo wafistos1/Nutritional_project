@@ -91,12 +91,12 @@
 
 
           <br>
-          <form method="get" action="{% url 'filter' %}">
-            <div id="form-filter" class="form-group" >
+          <form method="get">
+            <div id="form-filter" class="form-group">
 
               {{ filter.form }}
               {{ filter1.form }}
-              <input type="submit" value="Filtre"  />
+              <input type="submit" value="Filtre" />
 
             </div>
           </form>
@@ -106,8 +106,10 @@
         <!-- ************************************************************** -->
 
     </section>
+    {% include "pagination.html" with liste=best_product view="filter" %}
 
-    {% include "pagination.html" with liste=best_product view="resultats" %}
+
+
     <div class="album py-5 bg-light">
       <div class="container">
         <div class="row">
@@ -218,7 +220,7 @@
     </div>
 
     </div>
-    {% include "pagination.html" with liste=best_product view="resultats" %}
+    {% include "pagination.html" with liste=best_product view="filter" %}
     </div>
 </main>
 

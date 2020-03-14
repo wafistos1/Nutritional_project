@@ -18,7 +18,7 @@
         <li class="page-item"><a class="page-link" href="{% url 'resultats' best_product.previous_page_number %}">Précédente</a></li>
         {% endif %}
 
-        <li class="page-item">
+        <li class="current">
                 <a class="page-link" href="#">
                 Page {{ best_product.number }} sur {{ best_product.paginator.num_pages }}
                 </a>

@@ -35,112 +35,55 @@ def resultats(request, page=1):
 
     global query
     global data
-    
+    # First logic section   
     best_product = []
     filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
     filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
+
+    """ Logic of first user search( get best product (best grade )) 
+    """
     if request.GET.get('q') is not None:
+         query = request.GET.get('q').capitalize()
 
-        query = request.GET.get('q').capitalize()
-
-        try:
-            data = Product.objects.filter(name__contains=query).first()
-            best_product = Product.objects.filter(
-                categorie=data.categorie
-                ).filter(grade__lt=data.grade).order_by("grade")
-            # filter_grade = ProductFilter(request.GET, queryset=best_product)
-            paginator = Paginator(best_product, 15)
-            best_product = paginator.page(page)
-            print(best_product)
-            context = {
-                'data': data, 
-                'best_product': best_product,
-                'filter': filter_grade,
-                'filter1': filter_rating,
-                'rating': filter_rating,
-                }
-            print(filter_grade)
-            return render(request, 'store/resultats.html', context )
-    
-            if  best_product is None:
-                text = _('Vous avez choisi le meilleur produit nutitionnelle')
-                return render(
-                    request, 'store/resultats.html',
-                    {'data': data, 'best_product': best_product, 'text': text}
-                    )
-
-        except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
-            send_text = _("Essayez un autre produit.")
-            produit = query
-            return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-        except EmptyPage:
-            paginator = paginator.page(paginator.num_pages)
-        except NoReverseMatch:
-            redirect('store/home.html')
-    
-    grade_contains_query = request.GET.get('grade')
-    categorie_contains_query = request.GET.get('categorie')
-    rating_contains_query = request.GET.get('rating')
-
-    print(f'grade = {grade_contains_query}')
-    print(f'categorie = {categorie_contains_query}')
-    print(f'rating = {rating_contains_query}')
-    filter_product = []
-    filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
-    filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
-    if rating_contains_query:
-        print('choix 1 ')
-        if categorie_contains_query and grade_contains_query:
-            # filter_rate1 = Rating.objects.filter(rating=rating_contains_query)
-            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
-                                                            categorie=categorie_contains_query, 
-                                                            grade=grade_contains_query)
-            filter_grade = ProductFilter(request.GET, queryset=filter_product)
-        elif categorie_contains_query and grade_contains_query is None:
-            # filter_rate1 = Rating.objects.filter(rating=rating_contains_query)
-            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
-                                                            categorie=categorie_contains_query)
-            filter_grade = ProductFilter(request.GET, queryset=filter_product)
-        elif categorie_contains_query is None and grade_contains_query:
-            #filter_rate1 = Rating.objects.filter(rating=rating_contains_query)
-            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
-                                                            grade=grade_contains_query)
-            filter_grade = ProductFilter(request.GET, queryset=filter_product)
-        else:
-            #filter_rate1 = Rating.objects.filter(rating=rating_contains_query)
-            filter_product = Product.objects.filter(rating__rating=rating_contains_query,)
-            filter_grade = ProductFilter(request.GET, queryset=filter_product)
-                                                        
-        filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
-        filter_grade = ProductFilter(request.GET, queryset=filter_product)
-        print((f'Nombre de produit trouves {len(filter_product)}'))
-
-    elif categorie_contains_query or grade_contains_query:
-        print('choix 2')
-        filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
-    else:
-        print('choix 3')
-    
-    filter_qs = filter_grade.qs
-    paginator = Paginator(filter_qs, 15)
-    page = request.GET.get('page')
     try:
-        filter_qs = paginator.page(page) 
-    except PageNotAnInteger:
-        filter_qs = paginator.page(1)
-    except EmptyPage:
-        filter_qs = paginator.page(paginator.num_pages)
+        data = Product.objects.filter(name__contains=query).first()
+        best_product = Product.objects.filter(
+            categorie=data.categorie
+            ).filter(grade__lt=data.grade).order_by("grade")
+        filter_grade = ProductFilter(request.GET, queryset=best_product)
+        paginator = Paginator(best_product, 15)
+        try:
+            best_product = paginator.page(page) 
+        except PageNotAnInteger:
+            best_product = paginator.page(1)
+        except EmptyPage:
+            best_product = paginator.page(paginator.num_pages)
 
-    context = {
-        'data': data, 
-        'best_product': filter_qs,
-        'filter': filter_grade,
-        'filter1': filter_rating,
-        'rating': filter_rating,
-        }
-    print(filter_grade)
-    return render(request, 'store/resultats.html', context )
+        print(best_product)
+        context = {
+            'data': data, 
+            'best_product': best_product,
+            'filter': filter_grade,
+            'filter1': filter_rating,
+            'rating': filter_rating,
+            }
+        print(f"Les produit de meilleurs grade : {filter_grade}")
+        return render(request, 'store/resultats.html', context )
 
+        if  best_product is None:
+            text = _('Vous avez choisi le meilleur produit nutitionnelle')
+            return render(
+                request, 'store/resultats.html',
+                {'data': data, 'best_product': best_product, 'text': text}
+                )
+
+    except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
+        send_text = _("Essayez un autre produit.")
+        produit = query
+        return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
+    except NoReverseMatch:
+        redirect('store/home.html')
+ 
 
 
 @login_required(login_url='login')
@@ -253,3 +196,81 @@ def rating(request):
             dump = json.dumps(context)
             return HttpResponse(dump, content_type='application/json')
 
+
+@login_required(login_url='login')
+def filter(request, page1=1):
+    """Displays the results of the search for substitute products
+    """
+
+
+    global data
+    # First logic section   
+    best_product = []
+    filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
+    filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
+    grade_contains_query = request.GET.get('grade')
+    categorie_contains_query = request.GET.get('categorie')
+    rating_contains_query = request.GET.get('rating')
+
+ 
+    # Seconde logic section
+
+    print(f'grade = {grade_contains_query}')
+    print(f'categorie = {categorie_contains_query}')
+    print(f'rating = {rating_contains_query}')
+    filter_product = []
+
+
+    """ logic of seconde user search (get constum search with 3 fields ( grade, categorie, rating))
+    """
+    if rating_contains_query:
+        print('choix 1-Utilisateur choisis recherche par note')
+        if categorie_contains_query and grade_contains_query:  # If select categorie and grade  
+            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
+                                                            categorie=categorie_contains_query, 
+                                                            grade=grade_contains_query)
+            filter_grade = ProductFilter(request.GET, queryset=filter_product)
+
+        elif categorie_contains_query and grade_contains_query is None:  # If select categorie only 
+            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
+                                                            categorie=categorie_contains_query)
+            filter_grade = ProductFilter(request.GET, queryset=filter_product)
+
+        elif categorie_contains_query is None and grade_contains_query:  # If select grade only 
+            filter_product = Product.objects.filter(rating__rating=rating_contains_query, 
+                                                            grade=grade_contains_query)
+            filter_grade = ProductFilter(request.GET, queryset=filter_product)
+
+        else: # If not select the both
+            filter_product = Product.objects.filter(rating__rating=rating_contains_query,)
+            filter_grade = ProductFilter(request.GET, queryset=filter_product)
+                                                        
+        filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
+        filter_grade = ProductFilter(request.GET, queryset=filter_product)
+        print((f'Nombre de produit trouves {len(filter_product)}'))
+
+    elif categorie_contains_query or grade_contains_query:
+        print('choix 2- Utilisateur choisis une recherche par grade ou par categorie')
+        filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
+    else:
+        print('choix 3- a faire ??? ')
+    
+    filter_qs = filter_grade.qs
+    paginator = Paginator(filter_qs, 15)
+    page1 = request.GET.get('page1')
+    try:
+        filter_qs = paginator.page(page1) 
+    except PageNotAnInteger:
+        filter_qs = paginator.page(1)
+    except EmptyPage:
+        filter_qs = paginator.page(paginator.num_pages)
+
+    context = {
+        'data': data, 
+        'best_product': filter_qs,
+        'filter': filter_grade,
+        'filter1': filter_rating,
+        'rating': filter_rating,
+        }
+    print(filter_grade)
+    return render(request, 'store/filter.html', context )
