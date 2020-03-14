@@ -19,7 +19,6 @@ from store import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('resultats', views.resultats, name='resultats'),
-    path('resultat', views.resultat, name='resultat'),
     path('rating', views.rating, name='rating'),
     path('resultats/<int:page>/', views.resultats, name='resultats'),
     path('aliment', views.aliment, name='aliment'),

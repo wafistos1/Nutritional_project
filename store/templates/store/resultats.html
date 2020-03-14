@@ -9,55 +9,55 @@
 {% block content %}
 
 
-    <br />
-    <section>
+<br />
+<section>
 
-    </section>
-    <div class="album py-5 bg-light">
-      <div class="container">
+</section>
+<div class="album py-5 bg-light">
+  <div class="container">
 
-        <div class="row">
+    <div class="row">
 
-          <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-              <img class="img-responsive" width="100%" height="200" src="{{ data.images }}"
-                preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-              <div class="card-body">
-                <h2>{{ data.name }}</p>
-              </div>
-              <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                  {% if data.detail_igredient %}
-                  <div class="section_subtitle">{% trans 'Detail' %}: {{ data.detail_igredient}}</div>
-                  {% endif %}
-                </div>
-              </div>
-            </div>
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <img class="img-responsive" width="100%" height="200" src="{{ data.images }}"
+            preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+          <div class="card-body">
+            <h2>{{ data.name }}</p>
           </div>
-          <div>
-            {% if data.grade == 'a' %}
-            {{ data.grade }}
-            <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-a.svg'%}"
-              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-            {%  elif data.grade == 'b' %}
-            <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-b.svg'%}"
-              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-
-            {%  elif data.grade == 'c' %}
-            <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-c.svg'%}"
-              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-
-            {%   else%}
-            <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-e.svg'%}"
-              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-
-            {% endif %}
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center">
+              {% if data.detail_igredient %}
+              <div class="section_subtitle">{% trans 'Detail' %}: {{ data.detail_igredient}}</div>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <div>
+        {% if data.grade == 'a' %}
+        {{ data.grade }}
+        <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-a.svg'%}"
+          preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+        {%  elif data.grade == 'b' %}
+        <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-b.svg'%}"
+          preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
 
-  
+        {%  elif data.grade == 'c' %}
+        <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-c.svg'%}"
+          preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+        {%   else%}
+        <img class="img-responsive" width="100%" height="100" src="{% static 'img/nutriscore-e.svg'%}"
+          preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </section>
 
 <main role="main">
@@ -73,150 +73,153 @@
         <div class="section_subtitle">{% trans 'Produits de meilleur qualité nutritionnelle' %}</div>
       </div>
     </div>
-<!-- ***************************************************************** -->
-<section class="page-section bg-white text-orange" id="add-element">
+    <!-- ***************************************************************** -->
+    <section class="page-section bg-white text-orange" id="add-element">
 
 
-  <main role="main">
+      <main role="main">
 
-    <section class="jumbotron text-center">
-      <div class="container">
-        <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
-        <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
+        <section class="jumbotron text-center">
+          <div class="container">
+            <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
+            <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
 
-      </div>
-    </section>
-    <section class="card card-body">
-    
-      
-        
-        <br>
-        <form method="get" >
-        <div id="form-filter" class="form-group">
-        
-          {{ filter.form }}
-          {{ filter1.form }}
-          <input type="submit" value="Filtre" />
-      
-    </div>
-  </form>
-     
-    </section>
+          </div>
+        </section>
+        <section class="card card-body">
 
-<!-- ************************************************************** -->
 
-  </section >
- 
-  {% include "pagination.html" with liste=best_product.qs view="resultats" %}
-  <div class="album py-5 bg-light">
-    <div class="container">
-      <div class="row">      
-        {% for value in filter.qs %}
-        
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            <img class="img-responsive" width="80%" height="225" src="{{ value.images }}"
-              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-            <div class="card-body">
-              <h5>{{value.name|truncatewords:3 }}</h5>
+
+          <br>
+          <form method="get">
+            <div id="form-filter" class="form-group">
+
+              {{ filter.form }}
+              {{ filter1.form }}
+              <input type="submit" value="Filtre" />
+
             </div>
-            <div class="col align-items-center" name="Sauvegarder">
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="col-6 col-md-4">
-                  <a href="{% url 'save_aliment' fav=value.pk prod=data.pk  %}"><button type="button"
-                      class="btn btn-sm btn-outline-primary">Sauvegarder</button></a>
-                </div>
-                
+          </form>
+
+        </section>
+
+        <!-- ************************************************************** -->
+
+    </section>
+
+    {% include "pagination.html" with liste=best_product view="resultats" %}
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          {% for value in best_product %}
+
+          <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+              <img class="img-responsive" width="80%" height="225" src="{{ value.images }}"
+                preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+              <div class="card-body">
+                <h5>{{value.name|truncatewords:3 }}</h5>
+              </div>
+              <div class="col align-items-center" name="Sauvegarder">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="col-6 col-md-4">
+                    <a href="{% url 'save_aliment' fav=value.pk prod=data.pk  %}"><button type="button"
+                        class="btn btn-sm btn-outline-primary">Sauvegarder</button></a>
+                  </div>
+
                   <div class="col align-self-end">
                     {% if value.grade == 'a' %}
                     <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-a.svg'%}"
-                       focusable="false" role="img" >
+                      focusable="false" role="img">
                     {%  elif value.grade == 'b' %}
                     <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-b.svg'%}"
-                       focusable="false" role="img" >
-    
+                      focusable="false" role="img">
+
                     {%  elif value.grade == 'c' %}
                     <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-c.svg'%}"
-                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                      aria-label="Placeholder: Thumbnail">
 
-                      {%  elif value.grade == 'd' %}
-                      <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-d.svg'%}"
-                        preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-          
+                    {%  elif value.grade == 'd' %}
+                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-d.svg'%}"
+                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                      aria-label="Placeholder: Thumbnail">
+
                     {%   else%}
                     <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-e.svg'%}"
-                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-    
+                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
+                      aria-label="Placeholder: Thumbnail">
+
                     {% endif %}
-                    
-                    
+
+
                   </div>
-                  <div class="rating"   >
+                  <div class="rating">
                     {% for rate in rating.qs %}
-                        {% if value.pk == rate.product_rating.pk%}
-                              {% if rate.rating == 1 %}
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star checked"></span>
-                              {% elif rate.rating == 2 %}
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              {% elif rate.rating == 3 %}
-                          
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              {% elif rate.rating == 4 %}
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              
-                              {% else %}
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              <span class="fa fa-star checked"></span>
-                              
+                    {% if value.pk == rate.product_rating.pk%}
+                    {% if rate.rating == 1 %}
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star checked"></span>
+                    {% elif rate.rating == 2 %}
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    {% elif rate.rating == 3 %}
+
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    {% elif rate.rating == 4 %}
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+
+                    {% else %}
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
 
 
-                              {% endif%}
 
-                          {% endif %}
+                    {% endif%}
+
+                    {% endif %}
                     {% endfor %}
 
                   </div>
 
 
 
-                
 
-                
 
-              
+
+
+
+                </div>
+
               </div>
-
             </div>
           </div>
+
+          {% endfor %}
         </div>
-      
-        {% endfor %}
-      </div>
       </div>
     </div>
 
-  </div>
-  {% include "pagination.html" with liste=best_product view="resultats" %}
-</div>
+    </div>
+    {% include "pagination.html" with liste=best_product view="resultats" %}
+    </div>
 </main>
 
 

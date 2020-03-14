@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.messages import SUCCESS, ERROR
 from django.utils.translation import ugettext as _
-from django.core.paginator import Paginator, EmptyPage
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from store.models import Product, Favorite, Rating
 from django.views.decorators.csrf import csrf_exempt
@@ -48,11 +48,13 @@ def resultats(request, page=1):
             best_product = Product.objects.filter(
                 categorie=data.categorie
                 ).filter(grade__lt=data.grade).order_by("grade")
-            filter_grade = ProductFilter(request.GET, queryset=best_product)
+            # filter_grade = ProductFilter(request.GET, queryset=best_product)
+            paginator = Paginator(best_product, 15)
+            best_product = paginator.page(page)
             print(best_product)
             context = {
                 'data': data, 
-                'best_product': filter_grade,
+                'best_product': best_product,
                 'filter': filter_grade,
                 'filter1': filter_rating,
                 'rating': filter_rating,
@@ -66,8 +68,7 @@ def resultats(request, page=1):
                     request, 'store/resultats.html',
                     {'data': data, 'best_product': best_product, 'text': text}
                     )
-            paginator = Paginator(best_product, 15)
-            best_product = paginator.page(page)
+
         except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
             send_text = _("Essayez un autre produit.")
             produit = query
@@ -119,11 +120,20 @@ def resultats(request, page=1):
         filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
     else:
         print('choix 3')
- 
+    
+    filter_qs = filter_grade.qs
+    paginator = Paginator(filter_qs, 15)
+    page = request.GET.get('page')
+    try:
+        filter_qs = paginator.page(page) 
+    except PageNotAnInteger:
+        filter_qs = paginator.page(1)
+    except EmptyPage:
+        filter_qs = paginator.page(paginator.num_pages)
 
     context = {
         'data': data, 
-        'best_product': filter_grade,
+        'best_product': filter_qs,
         'filter': filter_grade,
         'filter1': filter_rating,
         'rating': filter_rating,
@@ -243,36 +253,3 @@ def rating(request):
             dump = json.dumps(context)
             return HttpResponse(dump, content_type='application/json')
 
-
-@login_required(login_url='login')
-def resultat(request):
-    """Displays the results of the search for substitute products
-    """
-    if request.method == 'GET':
-        grade = request.GET['value']
-        grade = grade.lower()
-        try:
-            data = Product.objects.filter(name__contains=query).first()
-            print(data.categorie.pk)
-            best_product = Product.objects.filter(
-                categorie=data.categorie.pk
-                ).filter(grade__exact=grade)
-            item = len(best_product)
-            print(item)
-        
-        except (IndexError, exceptions.ObjectDoesNotExist, ValueError ):
-            print('coucou')
-            # send_text = _("Essayez un autre produit.")
-            # produit = query
-            # return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-        best_serializer = productSerializer(best_product, many=True)
-        data_serializer = productSerializer([data], many=True)
-                
-        context = {
-            'best': best_serializer.data, 
-            'data': data_serializer.data,
-            'item': item
-        }
-        context = json.dumps(context)
-  
-        return HttpResponse(context, content_type='application/json')
