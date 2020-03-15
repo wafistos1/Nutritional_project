@@ -15,6 +15,7 @@ from django.db.models import Avg, Q
 from django.core import exceptions, serializers
 from .serializers import productSerializer
 from .filters import ProductFilter, RatingFilter
+from django.views.generic import ListView
 
 
 # Global variable
@@ -34,9 +35,8 @@ def resultats(request, page=1):
     """
 
     global query
-    global data
     # First logic section   
-    best_product = []
+    
     filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
     filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
 
@@ -46,45 +46,40 @@ def resultats(request, page=1):
          query = request.GET.get('q').capitalize()
 
     try:
-        data = Product.objects.filter(name__contains=query).first()
+        data = Product.objects.filter(name__contains=query)
         best_product = Product.objects.filter(
-            categorie=data.categorie
-            ).filter(grade__lt=data.grade).order_by("grade")
-        filter_grade = ProductFilter(request.GET, queryset=best_product)
-        paginator = Paginator(best_product, 15)
-        try:
-            best_product = paginator.page(page) 
-        except PageNotAnInteger:
-            best_product = paginator.page(1)
-        except EmptyPage:
-            best_product = paginator.page(paginator.num_pages)
-
-        print(best_product)
-        context = {
-            'data': data, 
-            'best_product': best_product,
-            'filter': filter_grade,
-            'filter1': filter_rating,
-            'rating': filter_rating,
-            }
-        print(f"Les produit de meilleurs grade : {filter_grade}")
-        return render(request, 'store/resultats.html', context )
-
+            categorie=data[0].categorie
+            ).filter(grade__lt=data[0].grade).order_by("grade")
         if  best_product is None:
             text = _('Vous avez choisi le meilleur produit nutitionnelle')
             return render(
                 request, 'store/resultats.html',
                 {'data': data, 'best_product': best_product, 'text': text}
                 )
+        paginator = Paginator(best_product, 15)
+        best_product = paginator.page(page) 
+    except PageNotAnInteger:
+        best_product = paginator.page(1)
+    except EmptyPage:
+        paginator = paginator.page(paginator.num_pages)
+
 
     except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
         send_text = _("Essayez un autre produit.")
         produit = query
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-    except NoReverseMatch:
-        redirect('store/home.html')
- 
 
+    print(best_product)
+    context = { 
+            'data': data[0], 
+            'best_product': best_product,
+            'filter': filter_grade,
+            'filter1': filter_rating,
+            'rating': filter_rating,
+            }
+    print(f"Les produits de meilleurs grade : {filter_grade}")
+    return render(request, 'store/resultats.html', context )
+ 
 
 @login_required(login_url='login')
 def aliment(request):
@@ -198,7 +193,7 @@ def rating(request):
 
 
 @login_required(login_url='login')
-def filter(request, page1=1):
+def filter(request, page=1):
     """Displays the results of the search for substitute products
     """
 
@@ -257,9 +252,10 @@ def filter(request, page1=1):
     
     filter_qs = filter_grade.qs
     paginator = Paginator(filter_qs, 15)
-    page1 = request.GET.get('page1')
+    page = request.GET.get('page')
+    print(page)
     try:
-        filter_qs = paginator.page(page1) 
+        filter_qs = paginator.page(page) 
     except PageNotAnInteger:
         filter_qs = paginator.page(1)
     except EmptyPage:
@@ -274,3 +270,12 @@ def filter(request, page1=1):
         }
     print(filter_grade)
     return render(request, 'store/filter.html', context )
+
+# class filterListView(ListView):
+#     model = Product
+#     template_name = ('store/filter.html')
+#     paginate_by = 15
+#     context_object_name = 'best_product'
+
+#     def get_queryset(request):
+#         return Product.objects.all()

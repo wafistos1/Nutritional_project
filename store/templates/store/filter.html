@@ -91,7 +91,7 @@
 
 
           <br>
-          <form method="get">
+          <form method="get" >
             <div id="form-filter" class="form-group">
 
               {{ filter.form }}
@@ -106,7 +106,25 @@
         <!-- ************************************************************** -->
 
     </section>
-    {% include "pagination.html" with liste=best_product view="filter" %}
+
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if best_product.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ best_product.previous_page_number }}">previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ best_product.number }} of {{ best_product.paginator.num_pages }}.
+            </span>
+    
+            {% if best_product.has_next %}
+                <a href="?page={{ best_product.next_page_number }}">next</a>
+                <a href="?page={{ best_product.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 
 
 
@@ -220,7 +238,6 @@
     </div>
 
     </div>
-    {% include "pagination.html" with liste=best_product view="filter" %}
     </div>
 </main>
 

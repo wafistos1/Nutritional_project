@@ -1,12 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
-from store.models import Product, Favorite, Categorie
+from store.models import Product, Favorite, Categorie, Rating
 from register.models import Profile
 from django.core.paginator import Paginator, EmptyPage
+from store.filters import  ProductFilter, RatingFilter
+
 
 class TestViews(TestCase):
     def setUp(self):
+        request = self.factory.get('/customer/details')
         self.client = Client()
         self.resultats_url = reverse('resultats' )
         self.aliment_url = reverse('aliment')
@@ -17,11 +20,15 @@ class TestViews(TestCase):
         self.product_favorite = Product.objects.create(name='Pepsi', grade='A', images='static/img/23.jpg', categorie=self.categorie)
         self.product_choice = Product.objects.create(name='Cafe', grade='B', images='static/img/123.jpg', categorie=self.categorie)
         self.paginator = Paginator(self.product_favorite, 15)
+        self.all_product = Product.objects.all()
+        self.all_product_rating = Rating.objects.all()
         self.favorite = Favorite.objects.create(
             product_choice=self.product_choice,
             product_favorite=self.product_favorite,
             user=self.user
             )
+        self.product_filter = ProductFilter(request.GET, queryset=self.all_product())
+        self.rating_filter = RatingFilter(request.GET, queryset=self.all_product_rating)
     
     def test_home_get(self):
             response = self.client.get('/store/')
@@ -112,7 +119,8 @@ class TestViews(TestCase):
         favorite = Favorite.objects.filter(id=self.favorite.id)
         self.assertEquals(response.status_code, 200)
         
-
+    def test_product_filter_is_ok(self):
+        self.product_filter
          
          
     """
