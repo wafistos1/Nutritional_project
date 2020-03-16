@@ -81,7 +81,7 @@
 
         <section class="jumbotron text-center">
           <div class="container">
-            <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
+            <h1 class="text-uppercase text-orange font-weight-bold" style="">{% trans 'Aliment recherché' %}</h1>
             <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
 
           </div>
@@ -90,16 +90,26 @@
 
 
 
-          <br>
-          <form method="get" action="{% url 'filter' %}">
-            <div id="form-filter" class="form-group" >
-
-              {{ filter.form }}
-              {{ filter1.form }}
-              <input type="submit" value="Filtre"  />
-
-            </div>
-          </form>
+          <section class="form-group">
+          
+            <form method="GET" class="form-group" >
+              <div class="row">
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="grade" name="grade" id="grade">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="categorie" name="categorie" id="categorie">
+                </div>              
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="rating" name="rating" id="rating">
+                </div>
+              </div>
+              <input type="submit" value="Filtre" class="btn btn-primary" />
+            </form>
+               
+  
+  
+          </section>
 
         </section>
 
@@ -110,7 +120,8 @@
     {% include "pagination.html" with liste=best_product view="resultats" %}
     <div class="album py-5 bg-light">
       <div class="container">
-        <div class="row">
+        <div class="row-after">
+          <div class="row">
           {% for value in best_product %}
 
           <div class="col-md-4">
@@ -215,12 +226,18 @@
           {% endfor %}
         </div>
       </div>
+      </div>
     </div>
 
     </div>
     {% include "pagination.html" with liste=best_product view="resultats" %}
     </div>
 </main>
+
+
+<div id="data-container"></div>
+<div id="pagination-container"></div>
+
 
 
 

@@ -86,20 +86,25 @@
 
           </div>
         </section>
-        <section class="card card-body">
-
-
-
-          <br>
-          <form method="get" >
-            <div id="form-filter" class="form-group">
-
-              {{ filter.form }}
-              {{ filter1.form }}
-              <input type="submit" value="Filtre" />
-
+        
+        <section class="form-group">
+          
+          <form method="GET" class="form-group">
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="grade" name="grade" id="grade">
+              </div>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="categorie" name="categorie" id="categorie">
+              </div>              
+              <div class="col">
+                <input type="text" class="form-control" placeholder="rating" name="rating" id="rating">
+              </div>
             </div>
+            <input type="submit" value="Filtre" class="btn btn-primary" />
           </form>
+             
+
 
         </section>
 
@@ -108,23 +113,23 @@
     </section>
 
 
-    <div class="pagination">
-        <span class="step-links">
-            {% if best_product.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ best_product.previous_page_number }}">previous</a>
-            {% endif %}
-    
-            <span class="current">
-                Page {{ best_product.number }} of {{ best_product.paginator.num_pages }}.
-            </span>
-    
-            {% if best_product.has_next %}
-                <a href="?page={{ best_product.next_page_number }}">next</a>
-                <a href="?page={{ best_product.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
+    <div>
+        <ul class="pagination">
+                {% if best_product.has_previous %}
+                <li class="page-item"><a class="page-link" href="{% url 'filter' best_product.previous_page_number %}">Précédente</a></li>
+                {% endif %}
+        
+                <li class="current">
+                        <a class="page-link" href="#">
+                        Page {{ best_product.number }} sur {{ best_product.paginator.num_pages }}
+                        </a>
+                </li>
+        
+                {% if best_product.has_next %}
+                <li class="page-item"><a class="page-link" href="{% url 'filter' best_product.next_page_number %}">Suivante</a></li>
+                {% endif %}
+        </ul>
+        </div>
 
 
 
@@ -134,7 +139,7 @@
           {% for value in best_product %}
 
           <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+            <div class="toto-card">
               <img class="img-responsive" width="80%" height="225" src="{{ value.images }}"
                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
               <div class="card-body">
