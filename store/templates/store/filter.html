@@ -1,4 +1,5 @@
 {% extends "base2.html" %}
+
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -81,35 +82,30 @@
 
         <section class="jumbotron text-center">
           <div class="container">
-            <h1 class="text-uppercase text-orange font-weight-bold" style="">{% trans 'Aliment recherché' %}</h1>
+            <h1 class="text-uppercase text-orange font-weight-bold">{% trans 'Aliment recherché' %}</h1>
             <div class="section_subtitle">{% trans 'Resultat de la recherche' %}</div>
 
           </div>
         </section>
-        <section class="card card-body">
-
-
-
-          <section class="form-group">
+        
+        <section class="form-group">
           
-            <form method="GET" class="form-group" action="/filter" >
-              <div class="row">
-                <div class="col">
-                  <input type="text" class="form-control" placeholder="grade" name="grade" id="grade">
-                </div>
-                <div class="col">
-                  <input type="text" class="form-control" placeholder="categorie" name="categorie" id="categorie">
-                </div>              
-                <div class="col">
-                  <input type="text" class="form-control" placeholder="rating" name="rating" id="rating">
-                </div>
+          <form method="GET" class="form-group" action="/filter">
+            <div class="row">
+              <div class="col">
+                <input type="text" class="form-control" placeholder="grade" name="grade" id="grade">
               </div>
-              <input type="submit" value="Filtre" class="btn btn-primary" id="btn-filter" />
-            </form>
-               
-  
-  
-          </section>
+              <div class="col">
+                <input type="text" class="form-control" placeholder="categorie" name="categorie" id="categorie">
+              </div>              
+              <div class="col">
+                <input type="text" class="form-control" placeholder="rating" name="rating" id="rating">
+              </div>
+            </div>
+            <input type="submit" value="Filtre" class="btn btn-primary" />
+          </form>
+             
+
 
         </section>
 
@@ -117,15 +113,35 @@
 
     </section>
 
+
+
+
+
     <div class="album py-5 bg-light">
       <div class="container">
-        <div class="row-after">
-          {% include "pagination.html" with liste=best_product view="resultats" %}
-          <div class="row">
+        <div>
+            <ul class="pagination">
+                    {% if best_product.has_previous %}
+                    <li class="page-item"><a class="page-link" href="{% url 'filter' best_product.previous_page_number %}">Précédente</a></li>
+                    {% endif %}
+            
+                    <li class="page-item">
+                            <a class="page-link" href="#">
+                            Page {{ best_product.number }} sur {{ best_product.paginator.num_pages }}
+                            </a>
+                    </li>
+            
+                    {% if best_product.has_next %}
+                    <li class="page-item"><a class="page-link" href="{% url 'filter' best_product.next_page_number %}">Suivante</a></li>
+                    {% endif %}
+            </ul>
+            </div>
+        <div class="row">
+            
           {% for value in best_product %}
 
           <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
+            <div class="toto-card">
               <img class="img-responsive" width="80%" height="225" src="{{ value.images }}"
                 preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
               <div class="card-body">
@@ -166,7 +182,7 @@
 
                   </div>
                   <div class="rating">
-                    {% for rate in rating.qs %}
+                    {% for rate in rating %}
                     {% if value.pk == rate.product_rating.pk%}
                     {% if rate.rating == 1 %}
                     <span class="fa fa-star"></span>
@@ -226,134 +242,14 @@
           {% endfor %}
         </div>
       </div>
-      </div>
     </div>
 
     </div>
     </div>
 </main>
 
-<section>
-  
-
-  <!-- <table id="grid-data" class="table table-condensed table-hover table-striped">
-    <thead>
-        <tr>
-            <th data-column-id="id" data-type="numeric">ID</th>
-            <th data-column-id="sender">Sender</th>
-            <th data-column-id="received" data-order="desc">Received</th>
-        </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>10238</td>
-        <td>eduardo@pingpong.com</td>
-        <td>14.10.2013</td>
-    </tr>
-    <tr>
-      <td>10238</td>
-      <td>eduardo@pingpong.com</td>
-      <td>14.10.2013</td>
-  </tr>
-  <tr>
-    <td>10238</td>
-    <td>eduardo@pingpong.com</td>
-    <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-<tr>
-  <td>10238</td>
-  <td>eduardo@pingpong.com</td>
-  <td>14.10.2013</td>
-</tr>
-    </tbody>
-</table> -->
-
-
-
-
-
-
-<script>
-
-
-
-// $("#grid-data").bootgrid({
-//         ajax: true,
-//         post: function ()
-//         {
-//             /* To accumulate custom parameter with the request object */
-//             return {
-//                 id: "b0df282a-0d67-40e5-8558-c9e93b7befed"
-//             };
-//         },
-//         url: "/filter",
-//         formatters: {
-//             "link": function(column, row)
-//             {
-//                 return "<a href=\"#\">" + column.id + ": " + row.id + "</a>";
-//             }
-//         }
-//     });
-
-
-
-</script>
 
 
 </section>
+
 {% endblock %}

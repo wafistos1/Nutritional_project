@@ -1,14 +1,17 @@
 from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse, resolve
-from store.models import Product, Favorite, Categorie
+from store.models import Product, Favorite, Categorie, Rating
 from register.models import Profile
 from django.core.paginator import Paginator, EmptyPage
 
 class TestViews(TestCase):
     def setUp(self):
         self.client = Client()
+        url = reverse('home')
+        self.response = self.client.post(url)
         self.resultats_url = reverse('resultats' )
+        self.resultats_url = reverse('filter' )
         self.aliment_url = reverse('aliment')
         self.home_url = reverse('home')
         self.save_aliment_url = reverse('save_aliment', args=[1, 2])
@@ -21,6 +24,12 @@ class TestViews(TestCase):
             product_choice=self.product_choice,
             product_favorite=self.product_favorite,
             user=self.user
+            )
+        self.rating = Rating.objects.create(
+            rating='3',
+            product_rating=self.product_choice,
+            user_rating=self.user,
+            user_voting=True,
             )
     
     def test_home_get(self):
@@ -112,6 +121,40 @@ class TestViews(TestCase):
         favorite = Favorite.objects.filter(id=self.favorite.id)
         self.assertEquals(response.status_code, 200)
         
+    def test_rating_create_models(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get(f'/store/detail_favori/{self.favorite.id}')
+        rating_favorite = Rating.objects.create(
+            rating='3',
+            product_rating=self.favorite.product_favorite,
+            user_rating=self.user,
+            user_voting=True,
+        )
+        self.assertEquals(rating_favorite.product_rating, self.favorite.product_favorite)
+        self.assertEquals(rating_favorite.user_rating, self.user)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(rating_favorite.rating, self.rating.rating )
+
+    def test_if_filter_is_ok(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get('/resultats?&q=Mozzarella')
+        search_product = Product.objects.create(name='Mozzarella', grade='A', images='static/img/23.jpg', categorie=self.categorie)
+        response1 = self.client.get('/filter?grade=b&categorie=1&rating=3')
+        print(search_product)
+
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response1.status_code, 200)
+
+    
+    def test_rating_send_json_context(self):
+        pass
+
+    def test_filter_request_all_value(self):
+        pass
+
+    def test_filter_if_all_request_is_Not_Null(self):
+        pass
+
 
          
          

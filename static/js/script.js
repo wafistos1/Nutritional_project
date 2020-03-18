@@ -16,7 +16,7 @@ $newItemForm.on('click', function (e) {
 
 		},
 		success: function (data) {
-			alert(data['data']);
+			alert(data.data);
 		},
 		error: function (data) {
 			console.log("ajax call failed!");
