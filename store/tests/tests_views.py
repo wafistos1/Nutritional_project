@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse, resolve
 from store.models import Product, Favorite, Categorie, Rating
 from register.models import Profile
@@ -7,17 +7,19 @@ from django.core.paginator import Paginator, EmptyPage
 
 class TestViews(TestCase):
     def setUp(self):
+        self.factory = RequestFactory
         self.client = Client()
         url = reverse('home')
         self.response = self.client.post(url)
         self.resultats_url = reverse('resultats' )
-        self.resultats_url = reverse('filter' )
+        self.filter_url = reverse('filter' )
         self.aliment_url = reverse('aliment')
         self.home_url = reverse('home')
         self.save_aliment_url = reverse('save_aliment', args=[1, 2])
         self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
         self.categorie = Categorie.objects.create(name='Soda')
         self.product_favorite = Product.objects.create(name='Pepsi', grade='A', images='static/img/23.jpg', categorie=self.categorie)
+        self.product_favorite1 = Product.objects.create(name='cafe', grade='A', images='static/img/23.jpg', categorie=self.categorie)
         self.product_choice = Product.objects.create(name='Cafe', grade='B', images='static/img/123.jpg', categorie=self.categorie)
         self.paginator = Paginator(self.product_favorite, 15)
         self.favorite = Favorite.objects.create(
@@ -51,7 +53,7 @@ class TestViews(TestCase):
         response = self.client.get('/store/resultats?&q=Cafe')
         search_product = Product.objects.filter(name='Cafe').first()
         best_product = Product.objects.filter(categorie=search_product.categorie).filter(grade__lt=search_product.grade).order_by('grade').first()
-        self.assertEquals(best_product.name, 'Pepsi')
+        self.assertEquals(best_product.name, 'cafe')
         self.assertEquals(best_product.grade, 'A')
         self.assertEquals(best_product.categorie, self.categorie)
         self.assertEquals(response.status_code, 200)
@@ -140,20 +142,28 @@ class TestViews(TestCase):
         response = self.client.get('/resultats?&q=Mozzarella')
         search_product = Product.objects.create(name='Mozzarella', grade='A', images='static/img/23.jpg', categorie=self.categorie)
         response1 = self.client.get('/filter?grade=b&categorie=1&rating=3')
-        print(search_product)
-
-        self.assertEquals(response.status_code, 200)
+        try:
+            rating = Rating.objects.create(
+                rating='4',
+                product_rating=self.product_favorite1,
+                user_rating=self.user,
+                user_voting=True,
+                )
+        except:
+            pass
+        self.assertEquals(rating.rating, '4')
+        self.assertEquals(rating.product_rating, self.product_favorite1)
+        self.assertEquals(rating.user_rating, self.user)
+        self.assertEquals(rating.user_voting, True)
         self.assertEquals(response1.status_code, 200)
 
     
-    def test_rating_send_json_context(self):
-        pass
-
-    def test_filter_request_all_value(self):
-        pass
-
-    def test_filter_if_all_request_is_Not_Null(self):
-        pass
+    def test_rating_send_post_is_ok_context(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get(f'/detail_favori/{self.favorite.id}')
+ 
+        
+        self.assertEquals(response.status_code, 200)
 
 
          
