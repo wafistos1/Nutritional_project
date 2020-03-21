@@ -139,31 +139,10 @@
                   </div>
 
                   <div class="col align-self-end">
-                    {% if value.grade == 'a' %}
-                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-a.svg'%}"
-                      focusable="false" role="img">
-                    {%  elif value.grade == 'b' %}
-                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-b.svg'%}"
-                      focusable="false" role="img">
-
-                    {%  elif value.grade == 'c' %}
-                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-c.svg'%}"
-                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                      aria-label="Placeholder: Thumbnail">
-
-                    {%  elif value.grade == 'd' %}
-                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-d.svg'%}"
-                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                      aria-label="Placeholder: Thumbnail">
-
-                    {%   else%}
-                    <img class="img-responsive" width="50%" height="50" src="{% static 'img/nutriscore-e.svg'%}"
-                      preserveAspectRatio="xMidYMid slice" focusable="false" role="img"
-                      aria-label="Placeholder: Thumbnail">
-
-                    {% endif %}
-
-
+                    
+                    <img class="img-responsive" width="50%" height="50" src="static/img/nutriscore-{{value.grade}}.svg"
+                      focusable="false" role="img" alt="{{value.name}}">
+                    
                   </div>
                   <div class="rating">
                     {% for rate in rating.qs %}

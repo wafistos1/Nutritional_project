@@ -6,7 +6,8 @@ from register.models import Profile
 from django.contrib.auth.models import User
 from selenium.webdriver.common.keys import Keys
 import time 
-
+import requests
+from selenium import webdriver
 
 class MySeleniumTests(LiveServerTestCase):
     def setUp(self):
@@ -60,8 +61,8 @@ class MySeleniumTests(LiveServerTestCase):
         self.selenium.find_element_by_id("id_password").send_keys('djamel2013')
         self.selenium.find_element_by_id('submitBtn').click()
         self.selenium.find_element_by_xpath('//div[@class="rating"]/a[@id="rate_id"]').click()
-          
-
+        
+        
 
         
         
