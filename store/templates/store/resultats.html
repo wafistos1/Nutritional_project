@@ -1,5 +1,4 @@
 {% extends "base2.html" %}
-{% load el_pagination_tags %}
 {% load i18n %}
 {% load crispy_forms_tags %}
 {% load static %}
@@ -93,7 +92,6 @@
 
           <section class="form-group">
           
-
             <form method="GET" class="form-group" action="/filter">
               <div class="row">
                 <div class="col">
@@ -137,7 +135,6 @@
                 </div>
               </div>
               <input type="submit" value="Filtre" class="btn btn-primary" />
-
             </form>
                
   
@@ -155,7 +152,6 @@
         <div class="row-after">
           {% include "pagination.html" with liste=best_product view="resultats" %}
           <div class="row">
-
           {% for value in best_product %}
 
           <div class="col-md-4">
@@ -237,7 +233,6 @@
           </div>
 
           {% endfor %}
-      {% show_pages %}
         </div>
       </div>
       </div>
@@ -334,8 +329,6 @@
   <td>eduardo@pingpong.com</td>
   <td>14.10.2013</td>
 </tr>
-=======
->>>>>>> staging
     </tbody>
 </table> -->
 
@@ -372,10 +365,4 @@
 
 
 </section>
-<<<<<<< HEAD
 {% endblock %}
-
-</div>
-=======
-{% endblock %}
->>>>>>> staging
