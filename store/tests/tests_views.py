@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse, resolve
 from store.models import Product, Favorite, Categorie, Rating
 from register.models import Profile
@@ -9,15 +9,23 @@ from store.filters import  ProductFilter, RatingFilter
 
 class TestViews(TestCase):
     def setUp(self):
+<<<<<<< HEAD
         request = self.factory.get('/customer/details')
+=======
+        self.factory = RequestFactory
+>>>>>>> staging
         self.client = Client()
+        url = reverse('home')
+        self.response = self.client.post(url)
         self.resultats_url = reverse('resultats' )
+        self.filter_url = reverse('filter' )
         self.aliment_url = reverse('aliment')
         self.home_url = reverse('home')
         self.save_aliment_url = reverse('save_aliment', args=[1, 2])
         self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
         self.categorie = Categorie.objects.create(name='Soda')
         self.product_favorite = Product.objects.create(name='Pepsi', grade='A', images='static/img/23.jpg', categorie=self.categorie)
+        self.product_favorite1 = Product.objects.create(name='cafe', grade='A', images='static/img/23.jpg', categorie=self.categorie)
         self.product_choice = Product.objects.create(name='Cafe', grade='B', images='static/img/123.jpg', categorie=self.categorie)
         self.paginator = Paginator(self.product_favorite, 15)
         self.all_product = Product.objects.all()
@@ -27,8 +35,17 @@ class TestViews(TestCase):
             product_favorite=self.product_favorite,
             user=self.user
             )
+<<<<<<< HEAD
         self.product_filter = ProductFilter(request.GET, queryset=self.all_product())
         self.rating_filter = RatingFilter(request.GET, queryset=self.all_product_rating)
+=======
+        self.rating = Rating.objects.create(
+            rating='3',
+            product_rating=self.product_choice,
+            user_rating=self.user,
+            user_voting=True,
+            )
+>>>>>>> staging
     
     def test_home_get(self):
             response = self.client.get('/store/')
@@ -49,7 +66,7 @@ class TestViews(TestCase):
         response = self.client.get('/store/resultats?&q=Cafe')
         search_product = Product.objects.filter(name='Cafe').first()
         best_product = Product.objects.filter(categorie=search_product.categorie).filter(grade__lt=search_product.grade).order_by('grade').first()
-        self.assertEquals(best_product.name, 'Pepsi')
+        self.assertEquals(best_product.name, 'cafe')
         self.assertEquals(best_product.grade, 'A')
         self.assertEquals(best_product.categorie, self.categorie)
         self.assertEquals(response.status_code, 200)
@@ -119,8 +136,54 @@ class TestViews(TestCase):
         favorite = Favorite.objects.filter(id=self.favorite.id)
         self.assertEquals(response.status_code, 200)
         
+<<<<<<< HEAD
     def test_product_filter_is_ok(self):
         self.product_filter
+=======
+    def test_rating_create_models(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get(f'/store/detail_favori/{self.favorite.id}')
+        rating_favorite = Rating.objects.create(
+            rating='3',
+            product_rating=self.favorite.product_favorite,
+            user_rating=self.user,
+            user_voting=True,
+        )
+        self.assertEquals(rating_favorite.product_rating, self.favorite.product_favorite)
+        self.assertEquals(rating_favorite.user_rating, self.user)
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(rating_favorite.rating, self.rating.rating )
+
+    def test_if_filter_is_ok(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get('/resultats?&q=Mozzarella')
+        search_product = Product.objects.create(name='Mozzarella', grade='A', images='static/img/23.jpg', categorie=self.categorie)
+        response1 = self.client.get('/filter?grade=b&categorie=1&rating=3')
+        try:
+            rating = Rating.objects.create(
+                rating='4',
+                product_rating=self.product_favorite1,
+                user_rating=self.user,
+                user_voting=True,
+                )
+        except:
+            pass
+        self.assertEquals(rating.rating, '4')
+        self.assertEquals(rating.product_rating, self.product_favorite1)
+        self.assertEquals(rating.user_rating, self.user)
+        self.assertEquals(rating.user_voting, True)
+        self.assertEquals(response1.status_code, 200)
+
+    
+    def test_rating_send_post_is_ok_context(self):
+        self.client.login(username= 'wafi', password='wafipass')
+        response = self.client.get(f'/detail_favori/{self.favorite.id}')
+ 
+        
+        self.assertEquals(response.status_code, 200)
+
+
+>>>>>>> staging
          
          
     """

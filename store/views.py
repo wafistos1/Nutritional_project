@@ -21,6 +21,10 @@ from django.views.generic import ListView
 # Global variable
 query = None
 data = None
+grade = None
+rating = None
+categorie = None
+conditions = dict()
 
 
 def home(request):
@@ -33,9 +37,9 @@ def home(request):
 def resultats(request, page=1):
     """Displays the results of the search for substitute products
     """
-
     global query
     global data
+<<<<<<< HEAD
     # First logic section   
     
     filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
@@ -46,11 +50,17 @@ def resultats(request, page=1):
     if request.GET.get('q') is not None:
          query = request.GET.get('q').capitalize()
 
+=======
+
+    if request.GET.get('q') is not None:
+        query = request.GET.get('q').capitalize()
+>>>>>>> staging
     try:
         data = Product.objects.filter(name__contains=query)
         best_product = Product.objects.filter(
             categorie=data[0].categorie
             ).filter(grade__lt=data[0].grade).order_by("grade")
+<<<<<<< HEAD
         if  best_product is None:
             text = _('Vous avez choisi le meilleur produit nutitionnelle')
             return render(
@@ -63,6 +73,23 @@ def resultats(request, page=1):
         best_product = paginator.page(1)
     except EmptyPage:
         paginator = paginator.page(paginator.num_pages)
+=======
+        if not best_product:
+            text = _('Vous avez choisi le meilleur produit nutitionnelle')
+            return render(
+                request, 'store/resultats.html',
+                {'data': data[0], 'best_product': best_product, 'text': text}
+                )
+        paginator = Paginator(best_product, 15)
+        best_product = paginator.page(page)
+    except IndexError:
+        send_text = _("Essayez un autre produit.")
+        produit = query
+        return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
+    except EmptyPage:
+        paginator = paginator.page(paginator.num_pages)
+    return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
+>>>>>>> staging
 
 
     except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
@@ -159,23 +186,26 @@ def rating(request):
         user_rating = request.user
 
         avg_rating = Rating.objects.filter(product_rating__id=product_id).aggregate(Avg('rating'))# moyenne du produit 
+        print(avg_rating)
         try:
-            rating_model = Rating.objects.get_or_create(
+            rating_model = Rating.objects.create(
             rating=rating,
             product_rating=product,
             user_rating=user_rating,
             user_voting=True
             )
+            print(rating_model)
             # Change types into string and int for sending in HttpResponse.
-            rating = int(rating_model[0].rating)
-            product_rating = str(rating_model[0].product_rating)
-            user_rating = str(rating_model[0].user_rating)
-            user_voting =  str(rating_model[0].user_voting)
+            rating = int(rating_model.rating)
+            product_rating = str(rating_model.product_rating)
+            user_rating = str(rating_model.user_rating)
+            user_voting =  str(rating_model.user_voting)
             context = {
                 'rating': avg_rating,
                 'product_rating': product_rating,
                 'user_rating': user_rating,
                 'user_voting': user_voting,
+                'data': " object creer avec succees"
                 }
             
             dump = json.dumps(context)
@@ -183,15 +213,50 @@ def rating(request):
 
 
         except:
-            print('toto')
+            print("Erreur de creation d'objet Rating")
             
 
-            context = {
-                'data': " Une erreure c'est produite"
-            }
-            dump = json.dumps(context)
-            return HttpResponse(dump, content_type='application/json')
+        context = {
+            'data': " Une erreure c'est produite"
+        }
+        dump = json.dumps(context)
+        return HttpResponse(dump, content_type='application/json')
 
+@login_required(login_url='login')
+def filter(request, page=1):
+    """Displays the results of the search for substitute products
+    """
+    global data
+    global grade
+    global rating
+    global categorie
+    global conditions
+    """ logic of seconde user search (get constum search with 3 fields ( grade, categorie, rating))
+    """
+    grade = request.GET.get('grade')
+    rating = request.GET.get('rating')
+    categorie = request.GET.get('categorie') 
+
+    if grade or rating or categorie: 
+        conditions = {}
+        for filter_key, form_key in (('grade',  'grade'), ('categorie', 'categorie'), ('rating__rating', 'rating')):
+            value = request.GET.get(form_key, None)
+            if value:
+                conditions[filter_key] = value
+    
+    print(conditions)
+    rating = Rating.objects.all()
+    best_product = Product.objects.filter(**conditions)
+    paginator = Paginator(best_product, 15)
+    try:
+        best_product = paginator.page(page)
+    
+    except EmptyPage:
+        paginator = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        paginator = paginator.page(1)
+
+<<<<<<< HEAD
 
 @login_required(login_url='login')
 def filter(request, page=1):
@@ -236,3 +301,14 @@ def filter(request, page=1):
 #         context['filter'] = RatingFilter(self.request.GET, queryset=Rating.objects.all())
 #         context['rating'] = ProductFilter(self.request.GET, queryset=Product.objects.all())
 #         return context
+=======
+    context = { 
+        'best_product': best_product,
+        'data': data[0],
+        'rating': rating,
+        'conditions': conditions,
+
+        }
+    print((context))
+    return render(request, 'store/filter.html', context)
+>>>>>>> staging

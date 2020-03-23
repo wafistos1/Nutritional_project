@@ -12,7 +12,6 @@ class TestViewsRegister(TestCase):
         self.compte_url = reverse('compte')
         self.user = User.objects.create_user('wafi', 'wafi@gmail.com', 'wafipass')
         self.profile = Profile.objects.get_or_create(user=self.user, image='picture/wafi.png')
-        
 
     def test_Register_get(self):
         response = self.client.get(self.Register_url)
