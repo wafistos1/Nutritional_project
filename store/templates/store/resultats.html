@@ -92,19 +92,49 @@
 
           <section class="form-group">
           
-            <form method="GET" class="form-group" action="/filter" >
+            <form method="GET" class="form-group" action="/filter">
               <div class="row">
                 <div class="col">
-                  <input type="text" class="form-control" placeholder="grade" name="grade" id="grade">
+                  <label for="grade">Grade</label>
+                  <select name="grade" class="form-control" placeholder="grade" name="grade" >
+                    <option value="" >All</option>
+                    <option value="a" selected>A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                    <option value="e">E</option>                  
+                  </select>
+  
+                  
+                  
                 </div>
+                
                 <div class="col">
-                  <input type="text" class="form-control" placeholder="categorie" name="categorie" id="categorie">
+                  <label for="categorie">Categorie</label>
+                  <select name="categorie" class="form-control" placeholder="categorie" name="categorie" id="categorie">
+                    <option value="">All</option>
+                    <option value="1" selected>Boissons</option>
+                    <option value="2">Produits laitiers</option>
+                    <option value="3">Biscuits</option>
+                    <option value="4">Petit-déjeuners</option>
+                    <option value="5">Chocolats</option>                  
+                    <option value="6">Salades</option>                  
+                  </select>
                 </div>              
                 <div class="col">
-                  <input type="text" class="form-control" placeholder="rating" name="rating" id="rating">
+                  <label for="rating">Note</label>
+                
+                  <select name="rating" class="form-control" placeholder="rating" name="grade" id="rating">
+                    <option value="">All</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>                  
+                  </select>
                 </div>
               </div>
-              <input type="submit" value="Filtre" class="btn btn-primary" id="btn-filter" />
+              <input type="submit" value="Filtre" class="btn btn-primary" />
             </form>
                
   

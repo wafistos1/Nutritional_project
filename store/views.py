@@ -215,6 +215,7 @@ def filter(request, page=1):
         'best_product': best_product,
         'data': data[0],
         'rating': rating,
+        'conditions': conditions,
 
         }
     print((context))
