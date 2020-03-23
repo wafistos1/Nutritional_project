@@ -15,7 +15,6 @@ from django.db.models import Avg, Q
 from django.core import exceptions, serializers
 from .serializers import productSerializer
 from .filters import ProductFilter, RatingFilter
-from django.views.generic import ListView
 
 
 # Global variable
@@ -40,10 +39,8 @@ def resultats(request, page=1):
     global query
     global data
 
-
     if request.GET.get('q') is not None:
         query = request.GET.get('q').capitalize()
-
     try:
         data = Product.objects.filter(name__contains=query)
         best_product = Product.objects.filter(
@@ -63,7 +60,8 @@ def resultats(request, page=1):
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
     except EmptyPage:
         paginator = paginator.page(paginator.num_pages)
-        return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
+    return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
+
 
 
 @login_required(login_url='login')
@@ -184,29 +182,34 @@ def filter(request, page=1):
     """Displays the results of the search for substitute products
     """
     global data
-    # First logic section   
-    value = request.GET.get('value')
+    global grade
+    global rating
+    global categorie
+    global conditions
     """ logic of seconde user search (get constum search with 3 fields ( grade, categorie, rating))
     """
-    conditions = dict()
+    grade = request.GET.get('grade')
+    rating = request.GET.get('rating')
+    categorie = request.GET.get('categorie') 
 
-    for filter_key, form_key in (('grade',  'grade'), ('categorie', 'categorie'), ('rating__rating', 'rating')):
-        value = request.GET.get(form_key, None)
-        if value:
-            conditions[filter_key] = value
+    if grade or rating or categorie: 
+        conditions = {}
+        for filter_key, form_key in (('grade',  'grade'), ('categorie', 'categorie'), ('rating__rating', 'rating')):
+            value = request.GET.get(form_key, None)
+            if value:
+                conditions[filter_key] = value
     
     print(conditions)
-
+    rating = Rating.objects.all()
     best_product = Product.objects.filter(**conditions)
-    serialize_product = productSerializer(best_product, many=True) 
-    print(type(serialize_product.data))
-
-
-    context = { 
-        'best_product': serialize_product.data,
-        }
-    print((context))
-    return JsonResponse(context)
+    paginator = Paginator(best_product, 15)
+    try:
+        best_product = paginator.page(page)
+    
+    except EmptyPage:
+        paginator = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        paginator = paginator.page(1)
 
     context = { 
         'best_product': best_product,
