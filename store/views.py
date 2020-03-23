@@ -39,41 +39,16 @@ def resultats(request, page=1):
     """
     global query
     global data
-<<<<<<< HEAD
-    # First logic section   
-    
-    filter_rating = RatingFilter(request.GET, queryset=Rating.objects.all())
-    filter_grade = ProductFilter(request.GET, queryset=Product.objects.all())
 
-    """ Logic of first user search( get best product (best grade )) 
-    """
-    if request.GET.get('q') is not None:
-         query = request.GET.get('q').capitalize()
-
-=======
 
     if request.GET.get('q') is not None:
         query = request.GET.get('q').capitalize()
->>>>>>> staging
+
     try:
         data = Product.objects.filter(name__contains=query)
         best_product = Product.objects.filter(
             categorie=data[0].categorie
             ).filter(grade__lt=data[0].grade).order_by("grade")
-<<<<<<< HEAD
-        if  best_product is None:
-            text = _('Vous avez choisi le meilleur produit nutitionnelle')
-            return render(
-                request, 'store/resultats.html',
-                {'data': data, 'best_product': best_product, 'text': text}
-                )
-        paginator = Paginator(best_product, 15)
-        best_product = paginator.page(page)
-    except PageNotAnInteger:
-        best_product = paginator.page(1)
-    except EmptyPage:
-        paginator = paginator.page(paginator.num_pages)
-=======
         if not best_product:
             text = _('Vous avez choisi le meilleur produit nutitionnelle')
             return render(
@@ -88,26 +63,8 @@ def resultats(request, page=1):
         return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
     except EmptyPage:
         paginator = paginator.page(paginator.num_pages)
-    return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
->>>>>>> staging
+        return render(request, 'store/resultats.html', {'data': data[0], 'best_product': best_product})
 
-
-    except (IndexError, exceptions.ObjectDoesNotExist, ValueError, AttributeError):
-        send_text = _("Essayez un autre produit.")
-        produit = query
-        return render(request, 'store/home.html', {'text': send_text, 'produit': produit})
-
-    print(best_product)
-    context = { 
-            'data': data[0], 
-            'best_product': best_product,
-            'filter': filter_grade,
-            'filter1': filter_rating,
-            'rating': filter_rating,
-            }
-    print(f"Les produits de meilleurs grade : {filter_grade}")
-    return render(request, 'store/resultats.html', context )
- 
 
 @login_required(login_url='login')
 def aliment(request):
@@ -227,42 +184,6 @@ def filter(request, page=1):
     """Displays the results of the search for substitute products
     """
     global data
-    global grade
-    global rating
-    global categorie
-    global conditions
-    """ logic of seconde user search (get constum search with 3 fields ( grade, categorie, rating))
-    """
-    grade = request.GET.get('grade')
-    rating = request.GET.get('rating')
-    categorie = request.GET.get('categorie') 
-
-    if grade or rating or categorie: 
-        conditions = {}
-        for filter_key, form_key in (('grade',  'grade'), ('categorie', 'categorie'), ('rating__rating', 'rating')):
-            value = request.GET.get(form_key, None)
-            if value:
-                conditions[filter_key] = value
-    
-    print(conditions)
-    rating = Rating.objects.all()
-    best_product = Product.objects.filter(**conditions)
-    paginator = Paginator(best_product, 15)
-    try:
-        best_product = paginator.page(page)
-    
-    except EmptyPage:
-        paginator = paginator.page(paginator.num_pages)
-    except PageNotAnInteger:
-        paginator = paginator.page(1)
-
-<<<<<<< HEAD
-
-@login_required(login_url='login')
-def filter(request, page=1):
-    """Displays the results of the search for substitute products
-    """
-    global data
     # First logic section   
     value = request.GET.get('value')
     """ logic of seconde user search (get constum search with 3 fields ( grade, categorie, rating))
@@ -287,21 +208,6 @@ def filter(request, page=1):
     print((context))
     return JsonResponse(context)
 
-# class filterListView(ListView):
-#     model = Product
-
-#     template_name = ('store/filter.html')
-#     context_object_name = 'best_product'
-#     paginate_by = 15
-
-#     def get_context_data(self, **kwrgrs):
-#         context = super().get_context_data(**kwrgrs)
-#         context['data'] = data[0]
-#         context['filter1'] = ProductFilter(self.request.GET, queryset=Product.objects.all())
-#         context['filter'] = RatingFilter(self.request.GET, queryset=Rating.objects.all())
-#         context['rating'] = ProductFilter(self.request.GET, queryset=Product.objects.all())
-#         return context
-=======
     context = { 
         'best_product': best_product,
         'data': data[0],
@@ -311,4 +217,3 @@ def filter(request, page=1):
         }
     print((context))
     return render(request, 'store/filter.html', context)
->>>>>>> staging
